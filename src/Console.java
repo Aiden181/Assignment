@@ -34,13 +34,15 @@ public class Console {
                     System.out.println("Please enter lead's birthday: ");
                     // Blank
                     System.out.println("Please enter lead's gender (M/F): ");
-                    if (sc.nextLine().toLowerCase().equals("m") || sc.nextLine().toLowerCase().equals("f")){
+                    if (sc.nextLine().toLowerCase() == ("m") && sc.nextLine().toLowerCase() == ("f")){
                         newLead.setGender(true);
                     }else {
                         newLead.setGender(false);
                     }
                     System.out.println("Please enter lead's phone number: ");
                     newLead.setPhone(sc.nextLine());
+                    System.out.println("Please enter lead's email: ");
+                    newLead.setEmail(sc.nextLine());
                     System.out.println("Please enter lead's address: ");
                     newLead.setAddress(sc.nextLine());
                 }else if (input.equals("3")){

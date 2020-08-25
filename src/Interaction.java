@@ -1,18 +1,17 @@
 import java.util.Date;
 
-public class Interaction {
+public class Interaction extends Lead{
 
-    private String id;
+    private String interactionID;
     private Date dateOfInteraction;
-    private String email;
     private String interactionPot;
 
-    public String getId() {
-        return id;
+    public String getInteractionId() {
+        return interactionID;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setInteractionIdId(String id) {
+        this.interactionID = id;
     }
 
     public Date getDateOfInteraction() {
@@ -23,19 +22,20 @@ public class Interaction {
         this.dateOfInteraction = dateOfInteraction;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getInteractionPot() {
         return interactionPot;
     }
 
     public void setInteractionPot(String interactionPot) {
         this.interactionPot = interactionPot;
+    }
+
+    @Override
+    public String toString() {
+        return "interactionID='" + interactionID + '\'' +
+                ", dateOfInteraction=" + dateOfInteraction +
+                ", id=" + getId() + '\'' +
+                ", email=" + getEmail() + '\'' +
+                ", interactionPot='" + interactionPot + '\'' + "\n";
     }
 }
