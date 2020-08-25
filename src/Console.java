@@ -1,6 +1,10 @@
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -26,7 +30,7 @@ public class Console {
 
 
             input = (sc.nextLine());
-            switch (input){
+            switch (input) {
                 case "1":
                     System.out.println(leads);
 
@@ -36,12 +40,19 @@ public class Console {
                     System.out.println("Please enter lead's name: ");
                     newLead.setName(sc.nextLine());
                     System.out.println("Please enter lead's birthday (dd/MM/YYYY): ");
-                    // Blank
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/uuuu");
+                    String date = sc.nextLine();
+                    try {
+                       LocalDate dob = LocalDate.parse(date, formatter);
+                       newLead.setDob(dob);
+                    }catch (DateTimeException e){
+                        System.out.println(date + " is not a valid date");
+                    }
                     System.out.println("Please enter lead's gender (M/F): ");
                     char gender = sc.nextLine().charAt(0);
-                    if (gender == 'm' || gender == 'f' || gender == 'M' || gender == 'F'){
+                    if (gender == 'm' || gender == 'f' || gender == 'M' || gender == 'F') {
                         newLead.setGender(true);
-                    }else {
+                    } else {
                         newLead.setGender(false);
                     }
                     System.out.println("Please enter lead's phone number: ");
@@ -50,7 +61,6 @@ public class Console {
                     newLead.setEmail(sc.nextLine());
                     System.out.println("Please enter lead's address: ");
                     newLead.setAddress(sc.nextLine());
-
                 case "3":
                     break;
                 case "4":

@@ -32,10 +32,10 @@ public class Interaction extends Lead{
 
     @Override
     public String toString() {
-        return "interactionID='" + interactionID + '\'' +
-                ", dateOfInteraction=" + dateOfInteraction +
-                ", id=" + getId() + '\'' +
-                ", email=" + getEmail() + '\'' +
-                ", interactionPot='" + interactionPot + '\'' + "\n";
+        return "interactionID = " + interactionID +
+                ", dateOfInteraction = " + dateOfInteraction +
+                ", id = " + getId() +
+                ", email = " + getEmail() +
+                ", interactionPot = " + interactionPot + "\n";
     }
 }

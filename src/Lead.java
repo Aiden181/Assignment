@@ -1,10 +1,10 @@
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Lead {
 
-    private String id;
+    private String id = "lead_";
     private String name;
-    private Date dob;
+    private LocalDate dob;
     private boolean gender;
     private String phone;
     private String email;
@@ -26,11 +26,11 @@ public class Lead {
         this.name = name;
     }
 
-    public Date getDob() {
+    public LocalDate getDob() {
         return dob;
     }
 
-    public void setDob(Date dob) {
+    public void setDob(LocalDate dob) {
         this.dob = dob;
     }
 
@@ -68,12 +68,12 @@ public class Lead {
 
     @Override
     public String toString() {
-        return "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", dob=" + dob +
-                ", gender=" + gender +
-                ", phone='" + phone + '\'' +
-                ", email='" + email + '\'' +
-                ", address='" + address + '\'' + "\n";
+        return "id = " + id + '\'' +
+                ", name = " + name +
+                ", dob = " + dob +
+                ", gender = " + gender +
+                ", phone = " + phone +
+                ", email = " + email +
+                ", address = " + address + "\n";
     }
 }
