@@ -31,36 +31,77 @@ public class Console {
 
             input = (sc.nextLine());
             switch (input) {
-                case "1":
+                case "1": // Print out all created leads
                     System.out.println(leads);
 
                 case "2":
+                    // Creating new lead
                     Lead newLead = new Lead();
                     leads.add(newLead);
+
+                    // Name Input and validation
                     System.out.println("Please enter lead's name: ");
-                    newLead.setName(sc.nextLine());
+                    String nameRegex = "[A-Z]+([ '-][a-zA-Z]+)*";
+                    if (sc.nextLine().matches(nameRegex)){
+                        newLead.setName(sc.nextLine());
+                    }else {
+                        System.out.println("Please enter a valid name: ");
+                        sc.nextLine();
+                    }
+
+                    // DOB Input and exception handling
                     System.out.println("Please enter lead's birthday (dd/MM/YYYY): ");
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/uuuu");
                     String date = sc.nextLine();
                     try {
-                       LocalDate dob = LocalDate.parse(date, formatter);
-                       newLead.setDob(dob);
-                    }catch (DateTimeException e){
+                        LocalDate dob = LocalDate.parse(date, formatter);
+                        newLead.setDob(dob);
+                    } catch (DateTimeException e) {
                         System.out.println(date + " is not a valid date");
                     }
+
+                    // Gender input and validation
                     System.out.println("Please enter lead's gender (M/F): ");
                     char gender = sc.nextLine().charAt(0);
                     if (gender == 'm' || gender == 'f' || gender == 'M' || gender == 'F') {
                         newLead.setGender(true);
-                    } else {
+                    }else {
                         newLead.setGender(false);
+                        System.out.println("Please enter a valid character (M/F): ");
+                        sc.nextLine();
                     }
+
+                    // Phone number input and validation
                     System.out.println("Please enter lead's phone number: ");
-                    newLead.setPhone(sc.nextLine());
+                    String phoneRegex = "\\+[0-9]*\\s+\\d{10}";
+                    if (sc.nextLine().matches(phoneRegex)){
+                        newLead.setPhone(sc.nextLine());
+                    }else {
+                        System.out.println("Please enter a valid phone number: ");
+                        sc.nextLine();
+                    }
+
+                    // Email Input (Lead)
                     System.out.println("Please enter lead's email: ");
-                    newLead.setEmail(sc.nextLine());
+                    String email = sc.nextLine();
+                    String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+                    if (sc.nextLine().matches(emailRegex)){
+                        newLead.setEmail(sc.nextLine());
+                    }else {
+                        System.out.println("Please enter a valid email: ");
+                        sc.nextLine();
+                    }
+
+                    // Address Input and validation
                     System.out.println("Please enter lead's address: ");
-                    newLead.setAddress(sc.nextLine());
+                    String addressRegex = "\\d+\\s+([a-zA-Z]+|[a-zA-Z]+\\s[a-zA-Z]+)";
+                    if (sc.nextLine().matches(addressRegex)){
+                        newLead.setAddress(sc.nextLine());
+                    }else {
+                        System.out.println("Please enter a valid address");
+                        sc.nextLine();
+                    }
+
                 case "3":
                     break;
                 case "4":
@@ -69,10 +110,20 @@ public class Console {
                     System.out.println(interactions);
                     break;
                 case "6":
+                    // Create new interaction
                     Interaction newInteraction = new Interaction();
                     interactions.add(newInteraction);
-                    System.out.println("Enter date of interaction: ");
-                    // Blank
+
+                    // Date of Interaction Input and Validation
+                    System.out.println("Enter date of interaction (dd/MM/yyyy): ");
+                    DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("d/M/uuuu");
+                    String date2 = sc.nextLine();
+                    try {
+                        LocalDate interactionDate = LocalDate.parse(date2, formatter2);
+                        newInteraction.setDateOfInteraction(interactionDate);
+                    } catch (DateTimeException e) {
+                        System.out.println(date2 + " is not a valid date");
+                    }
                     break;
                 case "7":
                     break;
