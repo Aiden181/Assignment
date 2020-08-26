@@ -33,7 +33,7 @@ public class Console {
             switch (input) {
                 case "1": // Print out all created leads
                     System.out.println(leads);
-
+                    break;
                 case "2":
                     // Creating new lead
                     Lead newLead = new Lead();
@@ -41,12 +41,12 @@ public class Console {
 
                     // Name Input and validation
                     System.out.println("Please enter lead's name: ");
-                    String nameRegex = "[A-Z]+([ '-][a-zA-Z]+)*";
+                    String nameRegex = "[A-Z]+([ '-][a-zA-Z]+)*"; //I think this Reg is wrong, i'll try to find a new one
                     if (sc.nextLine().matches(nameRegex)){
                         newLead.setName(sc.nextLine());
                     }else {
-                        System.out.println("Please enter a valid name: ");
-                        sc.nextLine();
+                        System.out.println("Please enter a valid name: "); //I think we should make a condition whether user input wrong again, they have to retype
+                        newLead.setName(sc.nextLine());
                     }
 
                     // DOB Input and exception handling
@@ -77,8 +77,8 @@ public class Console {
                     if (sc.nextLine().matches(phoneRegex)){
                         newLead.setPhone(sc.nextLine());
                     }else {
-                        System.out.println("Please enter a valid phone number: ");
-                        sc.nextLine();
+                        System.out.println("Please enter a valid phone number: "); //same as the above
+                        newLead.setPhone(sc.nextLine());
                     }
 
                     // Email Input (Lead)
@@ -88,8 +88,8 @@ public class Console {
                     if (sc.nextLine().matches(emailRegex)){
                         newLead.setEmail(sc.nextLine());
                     }else {
-                        System.out.println("Please enter a valid email: ");
-                        sc.nextLine();
+                        System.out.println("Please enter a valid email: "); //same as the above
+                        newLead.setEmail(sc.nextLine());
                     }
 
                     // Address Input and validation
@@ -98,8 +98,8 @@ public class Console {
                     if (sc.nextLine().matches(addressRegex)){
                         newLead.setAddress(sc.nextLine());
                     }else {
-                        System.out.println("Please enter a valid address");
-                        sc.nextLine();
+                        System.out.println("Please enter a valid address"); //same as above
+                        newLead.setAddress(sc.nextLine());
                     }
 
                 case "3":

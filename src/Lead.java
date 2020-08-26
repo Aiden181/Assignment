@@ -1,8 +1,12 @@
 import java.time.LocalDate;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Date;
 
 public class Lead {
 
-    private String id = "lead_";
+    private String id ="lead_";
     private String name;
     private LocalDate dob;
     private boolean gender;
@@ -66,6 +70,7 @@ public class Lead {
         this.address = address;
     }
 
+
     @Override
     public String toString() {
         return "id = " + id + '\'' +
@@ -76,4 +81,26 @@ public class Lead {
                 ", email = " + email +
                 ", address = " + address + "\n";
     }
+
+//    try {
+//        File myObj = new File("leads.csv");
+//        if (myObj.createNewFile()) {
+//            System.out.println("File created: " + myObj.getName());
+//        } else {
+//            System.out.println("File already exists.");
+//        }
+//    } catch (IOException e) {
+//        System.out.println("An error occurred.");
+//        e.printStackTrace();
+//    }
+//    try {
+//        FileWriter myWriter = new FileWriter("leads.csv");
+//        myWriter.write(name + "," + dob + "," + gender + "," + phone + "," + email + "," + address);
+//        myWriter.close();
+//        System.out.println("Successfully wrote to the file.");
+//    } catch (IOException e) {
+//        System.out.println("An error occurred.");
+//        e.printStackTrace();
+//    }
+
 }
