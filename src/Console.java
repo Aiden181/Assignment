@@ -40,13 +40,20 @@ public class Console {
                 case "2":
                     // Creating new lead
                     Lead newLead = new Lead();
+                    leads.add(newLead);
+
+                    // Generating ID for every lead created
+                    if (leads.add(newLead)){
+                        for (int i = 0; i < leads.size(); i++){
+                            newLead.setId("lead_" +Integer.toString(i));
+                        }
+                    }
 
                     // Name Input and validation
                     System.out.println("Please enter lead's name: ");
-                    String nameRegex = "^(([A-Za-z]+[\\-\\']?)*([A-Za-z]+)?\\s)+([A-Za-z]+[\\-\\']?)*([A-Za-z]+)?$";
-                    if (sc.nextLine().matches(nameRegex)){
+                    if (sc.nextLine().matches("/[A-Za-z]{3,30}$/")) {
                         newLead.setName(sc.nextLine());
-                    }else {
+                    } else {
                         System.out.println("Please enter a valid name: "); // Any suggestion to repeat this loop whenever the input is wrong?
                         newLead.setName(sc.nextLine());
                     }
@@ -69,7 +76,7 @@ public class Console {
                     char gender = sc.nextLine().charAt(0);
                     if (gender == 'm' || gender == 'f' || gender == 'M' || gender == 'F') {
                         newLead.setGender(true);
-                    }else {
+                    } else {
                         newLead.setGender(false);
                         System.out.println("Please enter a valid character (M/F): ");
                         sc.nextLine();
@@ -77,10 +84,9 @@ public class Console {
 
                     // Phone number input and validation
                     System.out.println("Please enter lead's phone number: ");
-                    String phoneRegex = "\\+[0-9]*\\s+\\d{10}";
-                    if (sc.nextLine().matches(phoneRegex)){
+                    if (sc.nextLine().matches("/[^0-9]/")) {
                         newLead.setPhone(sc.nextLine());
-                    }else {
+                    } else {
                         System.out.println("Please enter a valid phone number: "); //same as the above
                         newLead.setPhone(sc.nextLine());
                     }
@@ -88,20 +94,18 @@ public class Console {
                     // Email Input (Lead)
                     System.out.println("Please enter lead's email: ");
                     String email = sc.nextLine();
-                    String emailRegex = "^[\\w-\\+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$";
-                    if (sc.nextLine().matches(emailRegex)){
+                    if (sc.nextLine().matches("/[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+.[a-zA-Z]{2,4}/")) {
                         newLead.setEmail(sc.nextLine());
-                    }else {
+                    } else {
                         System.out.println("Please enter a valid email: "); //same as the above
                         newLead.setEmail(sc.nextLine());
                     }
 
                     // Address Input and validation
                     System.out.println("Please enter lead's address: ");
-                    String addressRegex = "\\d+\\s+([a-zA-Z]+|[a-zA-Z]+\\s[a-zA-Z]+)";
-                    if (sc.nextLine().matches(addressRegex)){
+                    if (sc.nextLine().matches("/[A-Za-z0-9\\-\\\\,.]+/")) {
                         newLead.setAddress(sc.nextLine());
-                    }else {
+                    } else {
                         System.out.println("Please enter a valid address"); //same as above
                         newLead.setAddress(sc.nextLine());
                     }
@@ -118,6 +122,30 @@ public class Console {
                     // Create new interaction
                     Interaction newInteraction = new Interaction();
                     interactions.add(newInteraction);
+
+                    // Generate ID for every interaction created
+                    if (interactions.add(newInteraction)){
+                        for (int i = 0; i < interactions.size(); i++){
+                            newInteraction.setInteractionIdId("lead_" +Integer.toString(i));
+                        }
+                    }
+
+                    // Ask for Interaction Potential
+                    System.out.println("What is the potential of this interaction? ");
+                    System.out.println("1. Positive");
+                    System.out.println("2. Negative");
+                    System.out.println("3. Neutral");
+                    int choice = sc.nextInt();
+                    switch (choice){
+                        case 1:
+                            newInteraction.setInteractionPot("Potential");
+                        case 2:
+                            newInteraction.setInteractionPot("Negative");
+                        case 3:
+                            newInteraction.setInteractionPot("Neutral");
+                        default:
+                            System.out.println("Please enter a valid input (1-3): ");
+                    }
 
                     // Date of Interaction Input and Validation
                     System.out.println("Enter date of interaction (dd/MM/yyyy): ");

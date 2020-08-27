@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class Lead {
 
-    private String id ="lead_";
+    private String id;
     private String name;
     private LocalDate dob;
     private boolean gender;
