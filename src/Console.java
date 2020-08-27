@@ -40,15 +40,14 @@ public class Console {
                 case "2":
                     // Creating new lead
                     Lead newLead = new Lead();
-                    leads.add(newLead);
 
                     // Name Input and validation
                     System.out.println("Please enter lead's name: ");
-                    String nameRegex = "[A-Z]+([ '-][a-zA-Z]+)*"; //I think this Reg is wrong, i'll try to find a new one
+                    String nameRegex = "^(([A-Za-z]+[\\-\\']?)*([A-Za-z]+)?\\s)+([A-Za-z]+[\\-\\']?)*([A-Za-z]+)?$";
                     if (sc.nextLine().matches(nameRegex)){
                         newLead.setName(sc.nextLine());
                     }else {
-                        System.out.println("Please enter a valid name: "); //I think we should make a condition whether user input wrong again, they have to retype
+                        System.out.println("Please enter a valid name: "); // Any suggestion to repeat this loop whenever the input is wrong?
                         newLead.setName(sc.nextLine());
                     }
 
@@ -61,6 +60,8 @@ public class Console {
                         newLead.setDob(dob);
                     } catch (DateTimeException e) {
                         System.out.println(date + " is not a valid date");
+                        System.out.println("Please enter a valid lead's birthday (dd/MM/YYYY): ");
+                        sc.nextLine();
                     }
 
                     // Gender input and validation
@@ -87,7 +88,7 @@ public class Console {
                     // Email Input (Lead)
                     System.out.println("Please enter lead's email: ");
                     String email = sc.nextLine();
-                    String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+                    String emailRegex = "^[\\w-\\+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$";
                     if (sc.nextLine().matches(emailRegex)){
                         newLead.setEmail(sc.nextLine());
                     }else {
@@ -104,6 +105,7 @@ public class Console {
                         System.out.println("Please enter a valid address"); //same as above
                         newLead.setAddress(sc.nextLine());
                     }
+                    break;
 
                 case "3":
                     break;

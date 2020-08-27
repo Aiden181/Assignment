@@ -34,8 +34,8 @@ public class Interaction extends Lead{
     public String toString() {
         return "interactionID = " + interactionID +
                 ", dateOfInteraction = " + dateOfInteraction +
-                ", id = " + getId() +
-                ", email = " + getEmail() +
+                ", id = " + getId().toString() +
+                ", email = " + getEmail().toString() +
                 ", interactionPot = " + interactionPot + "\n";
     }
 }
