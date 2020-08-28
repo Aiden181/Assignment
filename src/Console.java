@@ -1,3 +1,4 @@
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -43,19 +44,17 @@ public class Console {
                     leads.add(newLead);
 
                     // Generating ID for every lead created
-                    if (leads.add(newLead)){
-                        for (int i = 0; i < leads.size(); i++){
-                            newLead.setId("lead_" +Integer.toString(i));
-                        }
-                    }
-
+//                    if (leads.add(newLead)){
+//                        for (int i = 0; i < leads.size(); i++){
+//                            newLead.setId("lead_" +Integer.toString(i));
+//                        }
+//                    }
                     // Name Input and validation
                     System.out.println("Please enter lead's name: ");
-                    if (sc.nextLine().matches("/[A-Za-z]{3,30}$/")) {
-                        newLead.setName(sc.nextLine());
-                    } else {
-                        System.out.println("Please enter a valid name: "); // Any suggestion to repeat this loop whenever the input is wrong?
-                        newLead.setName(sc.nextLine());
+                    String name = sc.nextLine();
+                    while (!name.matches("/[A-Za-z]{3,30}$/")) {
+                        System.out.println("Please enter a valid name: ");
+                        name = sc.nextLine();
                     }
 
                     // DOB Input and exception handling
@@ -83,34 +82,62 @@ public class Console {
                     }
 
                     // Phone number input and validation
-                    System.out.println("Please enter lead's phone number: ");
-                    if (sc.nextLine().matches("/[^0-9]/")) {
-                        newLead.setPhone(sc.nextLine());
-                    } else {
-                        System.out.println("Please enter a valid phone number: "); //same as the above
-                        newLead.setPhone(sc.nextLine());
+                    System.out.println("Please enter lead's phone number (10-digits): ");
+                    String phone = sc.nextLine();
+                    while (!phone.matches("/[^0-9]/")) {
+                        System.out.println("Please enter a valid phone number: ");
+                        phone = sc.nextLine();
                     }
+
 
                     // Email Input (Lead)
                     System.out.println("Please enter lead's email: ");
                     String email = sc.nextLine();
-                    if (sc.nextLine().matches("/[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+.[a-zA-Z]{2,4}/")) {
-                        newLead.setEmail(sc.nextLine());
-                    } else {
-                        System.out.println("Please enter a valid email: "); //same as the above
-                        newLead.setEmail(sc.nextLine());
+                    while (!email.matches("/[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+.[a-zA-Z]{2,4}/")) {
+                        System.out.println("Please enter a valid email: ");
+                        email = sc.nextLine();
                     }
 
                     // Address Input and validation
                     System.out.println("Please enter lead's address: ");
-                    if (sc.nextLine().matches("/[A-Za-z0-9\\-\\\\,.]+/")) {
-                        newLead.setAddress(sc.nextLine());
-                    } else {
-                        System.out.println("Please enter a valid address"); //same as above
-                        newLead.setAddress(sc.nextLine());
+                    String address = sc.nextLine();
+                    while (!address.matches("/[A-Za-z0-9\\-\\\\,.]+/")) {
+                        System.out.println("Please enter a valid address: ");
+                        address = sc.nextLine();
+                    }
+                    try {
+                        File myObj = new File("leads.csv");
+                        if (myObj.createNewFile()) {
+                            System.out.println("File created: " + myObj.getName());
+                            try {
+                                FileWriter myWriter = new FileWriter("leads.csv");
+                                myWriter.write(name + "," + date + "," + gender + "," + phone + "," + email + "," + address);
+                                myWriter.close();
+                                System.out.println("Successfully wrote to the file.");
+                            } catch (IOException e) {
+                                System.out.println("An error occurred.");
+                                e.printStackTrace();
+                            }
+                        } else {
+                            System.out.println("File already exists.");
+                            try {
+                                // Open given file in append mode.
+                                BufferedWriter out = new BufferedWriter(new FileWriter("leads.csv", true));
+                                out.write("\n"+name + "," + date + "," + gender + "," + phone + "," + email + "," + address);
+                                out.close();
+                                System.out.println("Successfully wrote to the file.");
+                            }
+                            catch (IOException e) {
+                                System.out.println("exception occured" + e);
+                            }
+
+                        }
+
+                    } catch (IOException e) {
+                        System.out.println("An error occurred.");
+                        e.printStackTrace();
                     }
                     break;
-
                 case "3":
                     break;
                 case "4":

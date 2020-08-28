@@ -73,7 +73,7 @@ public class Lead {
 
     @Override
     public String toString() {
-        return "id = " + id + '\'' +
+        return "id = " + id +
                 ", name = " + name +
                 ", dob = " + dob +
                 ", gender = " + gender +
@@ -81,26 +81,5 @@ public class Lead {
                 ", email = " + email +
                 ", address = " + address + "\n";
     }
-
-//    try {
-//        File myObj = new File("leads.csv");
-//        if (myObj.createNewFile()) {
-//            System.out.println("File created: " + myObj.getName());
-//        } else {
-//            System.out.println("File already exists.");
-//        }
-//    } catch (IOException e) {
-//        System.out.println("An error occurred.");
-//        e.printStackTrace();
-//    }
-//    try {
-//        FileWriter myWriter = new FileWriter("leads.csv");
-//        myWriter.write(name + "," + dob + "," + gender + "," + phone + "," + email + "," + address);
-//        myWriter.close();
-//        System.out.println("Successfully wrote to the file.");
-//    } catch (IOException e) {
-//        System.out.println("An error occurred.");
-//        e.printStackTrace();
-//    }
 
 }
