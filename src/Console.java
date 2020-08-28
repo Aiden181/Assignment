@@ -44,11 +44,11 @@ public class Console {
                     leads.add(newLead);
 
                     // Generating ID for every lead created
-//                    if (leads.add(newLead)){
-//                        for (int i = 0; i < leads.size(); i++){
-//                            newLead.setId("lead_" +Integer.toString(i));
-//                        }
-//                    }
+                    if (leads.add(newLead)){
+                        for (int i = 0; i < leads.size(); i++){
+                            newLead.setId("lead_" +Integer.toString(i));
+                        }
+                    }
                     // Name Input and validation
                     System.out.println("Please enter lead's name: ");
                     String name = sc.nextLine();
