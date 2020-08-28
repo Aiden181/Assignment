@@ -52,9 +52,12 @@ public class Console {
                     // Name Input and validation
                     System.out.println("Please enter lead's name: ");
                     String name = sc.nextLine();
-                    while (!name.matches("/[A-Za-z]{3,30}$/")) {
+                    while (!name.matches("^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$")) {
                         System.out.println("Please enter a valid name: ");
                         name = sc.nextLine();
+                    }
+                    if (name.matches("^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$")){
+                        newLead.setName(name);
                     }
 
                     // DOB Input and exception handling
@@ -84,27 +87,33 @@ public class Console {
                     // Phone number input and validation
                     System.out.println("Please enter lead's phone number (10-digits): ");
                     String phone = sc.nextLine();
-                    while (!phone.matches("/[^0-9]/")) {
+                    while (!phone.matches("^\\d{10}$")) {
                         System.out.println("Please enter a valid phone number: ");
                         phone = sc.nextLine();
+                    }
+                    if (phone.matches("^\\d{10}$")){
+                        newLead.setPhone(phone);
                     }
 
 
                     // Email Input (Lead)
                     System.out.println("Please enter lead's email: ");
                     String email = sc.nextLine();
-                    while (!email.matches("/[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+.[a-zA-Z]{2,4}/")) {
+                    while (!email.matches("\\b[\\w.%-]+@[-.\\w]+\\.[A-Za-z]{2,4}\\b")) {
                         System.out.println("Please enter a valid email: ");
                         email = sc.nextLine();
+                    }
+                    if (email.matches("\\b[\\w.%-]+@[-.\\w]+\\.[A-Za-z]{2,4}\\b")){
+                        newLead.setEmail(email);
                     }
 
                     // Address Input and validation
                     System.out.println("Please enter lead's address: ");
                     String address = sc.nextLine();
-                    while (!address.matches("/[A-Za-z0-9\\-\\\\,.]+/")) {
-                        System.out.println("Please enter a valid address: ");
-                        address = sc.nextLine();
-                    }
+//                    while (!address.matches("/[A-Za-z0-9\\-\\,.]+/")) {
+//                        System.out.println("Please enter a valid address: ");
+//                        address = sc.nextLine();
+//                    }
                     try {
                         File myObj = new File("leads.csv");
                         if (myObj.createNewFile()) {
