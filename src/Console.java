@@ -55,13 +55,6 @@ public class Console {
                     Lead newLead = new Lead();
                     leads.add(newLead);
 
-                    // Generating ID for every lead created
-                    if (leads.add(newLead)){
-                        for (int i = 0; i < leads.size(); i++){
-                            newLead.setId("lead_" +Integer.toString(i));
-                        }
-                    }
-
                     // Name Input and validation
                     System.out.println("Please enter lead's name: ");
                     String name = sc.nextLine();
@@ -200,6 +193,15 @@ public class Console {
                 case "3":
                     break;
                 case "4":
+                    int delete;
+                    System.out.println("Enter lead ID you want to delete (1 digit): ");
+                    delete = sc.nextInt();
+                    if (delete <= leads.size()){
+                        leads.remove(delete);
+                    }while (delete > leads.size()){
+                        System.out.println("Item is invalid, please re-enter a valid lead ID: ");
+                        delete = sc.nextInt();
+                }
                     break;
                 case "5":
 //                    System.out.println(interactions);
