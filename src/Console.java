@@ -68,7 +68,7 @@ public class Console {
 
                     // DOB Input and exception handling
                     System.out.println("Please enter lead's birthday (dd/MM/YYYY): ");
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/uuuu");
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/uuuu");
                     String date = sc.nextLine();
                     while (true){
                     try {
@@ -193,14 +193,14 @@ public class Console {
                 case "3":
                     break;
                 case "4":
-                    int delete;
+                    int deleteLead;
                     System.out.println("Enter lead ID you want to delete (1 digit): ");
-                    delete = sc.nextInt();
-                    if (delete <= leads.size()){
-                        leads.remove(delete);
-                    }while (delete > leads.size()){
+                    deleteLead = sc.nextInt();
+                    if (deleteLead <= leads.size()){
+                        leads.remove(deleteLead);
+                    }while (deleteLead > leads.size()){
                         System.out.println("Item is invalid, please re-enter a valid lead ID: ");
-                        delete = sc.nextInt();
+                        deleteLead = sc.nextInt();
                 }
                     break;
                 case "5":
@@ -340,6 +340,15 @@ public class Console {
                 case "7":
                     break;
                 case "8":
+                    int deleteInteraction;
+                    System.out.println("Enter interaction ID you want to delete (1 digit): ");
+                    deleteInteraction = sc.nextInt();
+                    if (deleteInteraction <= interactions.size()){
+                        leads.remove(deleteInteraction);
+                    }while (deleteInteraction > interactions.size()){
+                    System.out.println("Item is invalid, please re-enter a valid interaction ID: ");
+                    deleteInteraction = sc.nextInt();
+                }
                     break;
             }
         } while (input.equals("1") || input.equals("2") || input.equals("3") || input.equals("4") || input.equals("5")
