@@ -84,21 +84,16 @@ public class Console {
                     // Gender input and validation
                     System.out.println("Please enter lead's gender (M/F): ");
 
-//                    String gender = sc.nextLine();
-//                    if (gender.charAt(0) == 'M' || gender.charAt(0) == 'F') {
-//                        newLead.setGender(true);
-//                        gender = "true";
-//                    } else {
-//                        newLead.setGender(false);
-//                        System.out.println("Please enter a valid character (M/F): ");
-//                        gender = sc.nextLine();
-//                    }}
                     String gender = "";
                     char inputGender = sc.nextLine().charAt(0);
-                    if (inputGender == 'm' || inputGender == 'f' || inputGender == 'M' || inputGender == 'F') {
+                    if (inputGender == 'm' ||  inputGender == 'M') {
                         newLead.setGender(true);
-                        gender = "true";
-                    } else {
+                        gender = "Male";
+                    } else if (inputGender == 'f' || inputGender == 'F'){
+                        newLead.setGender(true);
+                        gender = "Female";
+                    }
+                    else {
                         newLead.setGender(false);
                         gender = "false";
 //                        System.out.println("Please enter a valid character (M/F): ");
