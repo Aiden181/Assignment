@@ -197,7 +197,7 @@ public class Console {
                     System.out.println("Enter lead ID you want to delete (1 digit): ");
                     deleteLead = sc.nextInt();
                     if (deleteLead <= leads.size()){
-                        leads.remove(deleteLead);
+                        leads.remove(deleteLead - 1);
                     }while (deleteLead > leads.size()){
                         System.out.println("Item is invalid, please re-enter a valid lead ID: ");
                         deleteLead = sc.nextInt();
@@ -344,7 +344,7 @@ public class Console {
                     System.out.println("Enter interaction ID you want to delete (1 digit): ");
                     deleteInteraction = sc.nextInt();
                     if (deleteInteraction <= interactions.size()){
-                        leads.remove(deleteInteraction);
+                        leads.remove(deleteInteraction - 1);
                     }while (deleteInteraction > interactions.size()){
                     System.out.println("Item is invalid, please re-enter a valid interaction ID: ");
                     deleteInteraction = sc.nextInt();
