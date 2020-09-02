@@ -2,6 +2,7 @@ import java.time.LocalDate;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.Period;
 import java.util.Date;
 
 public class Lead {
@@ -68,6 +69,13 @@ public class Lead {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public int getAge(){
+        LocalDate today = LocalDate.now();
+       int years = Period.between(dob, today).getYears();
+
+       return years;
     }
 
 
