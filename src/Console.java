@@ -303,7 +303,7 @@ public class Console {
                             Date interactionDate = sdf2.parse(date2);
                             newInteraction.setDateOfInteraction(interactionDate);
                             break;
-                        } catch (ParseException e) {
+                        } catch (ParseException | DateTimeException e) {
                             System.out.println(date2 + " is not a valid date");
                             System.out.println("Please enter a valid interaction date (dd/MM/YYYY): ");
                             date2 = sc.nextLine();
@@ -313,17 +313,23 @@ public class Console {
                     //Means of interaction Input and Validation
                     System.out.println("Enter the mean of interaction (email/telephone/face to face/social media):");
                     String means = sc.nextLine();
-                    while (!means.matches("^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$")) {
+                    while (!((means.matches("^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$")) && (means.toLowerCase().contains("email") || means.toLowerCase().contains("telephone") || means.toLowerCase().contains("face to face") || means.toLowerCase().contains("social media")))) {
                         System.out.println("Please enter a valid mean of interaction (email/telephone/face to face/social media): ");
                         means = sc.nextLine();
+                    }
+                    if (((means.matches("^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$")) && (means.toLowerCase().contains("email") || means.toLowerCase().contains("telephone") || means.toLowerCase().contains("face to face") || means.toLowerCase().contains("social media")))){
+                        newInteraction.setInteractionMean(means);
                     }
 
                     //Potential of each interaction Input and Validation
                     System.out.println("Enter the potential of each interaction (positive, neutral, negative):");
                     String potential = sc.nextLine();
-                    while (!potential.matches("^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$")) {
+                    while (!((potential.matches("^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$")) && (potential.toLowerCase().contains("positive") || potential.toLowerCase().contains("neutral") || potential.toLowerCase().contains("negative")))) {
                         System.out.println("Please enter a valid mean: ");
                         potential = sc.nextLine();
+                    }
+                    if ((potential.matches("^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$")) && (potential.toLowerCase().contains("positive") || potential.toLowerCase().contains("neutral") || potential.toLowerCase().contains("negative"))) {
+                        newInteraction.setInteractionPot(potential);
                     }
 
                     try {
@@ -416,6 +422,20 @@ public class Console {
                     System.out.println("> 60 (years old): " + countGreaterThanSixty);
 
                     // Number of Interactions by potential Report
+                    int countPositive = 0;
+                    int countNegative = 0;
+                    int countNeutral = 0;
+                    for (int i = 0; i < leads.size(); i++){
+                        if (interactions.get(i).getInteractionPot().toLowerCase().contains("positive")){
+                            countPositive++;
+                        }else if (interactions.get(i).getInteractionPot().toLowerCase().contains("neutral")){
+                            countNeutral++;
+                        }else if (interactions.get(i).getInteractionPot().toLowerCase().contains("negative")){
+                            countNegative++;
+                        }
+                    }
+
+                    // Number of Interactions by month report
                     break;
             }
         } while (input.equals("1") || input.equals("2") || input.equals("3") || input.equals("4") || input.equals("5")

@@ -1,10 +1,11 @@
 import java.util.Date;
 
-public class Interaction extends Lead{
+public class Interaction extends Lead {
 
     private String interactionID;
     private Date dateOfInteraction;
     private String interactionPot;
+    private String interactionMean;
 
     public String getInteractionId() {
         return interactionID;
@@ -22,6 +23,14 @@ public class Interaction extends Lead{
         this.dateOfInteraction = dateOfInteraction;
     }
 
+    public String getInteractionMean() {
+        return interactionMean;
+    }
+
+    public void setInteractionMean(String interactionMean) {
+        this.interactionMean = interactionMean;
+    }
+
     public String getInteractionPot() {
         return interactionPot;
     }
@@ -35,7 +44,7 @@ public class Interaction extends Lead{
         return "interactionID = " + interactionID +
                 ", dateOfInteraction = " + dateOfInteraction +
                 ", id = " + getId().toString() +
-                ", email = " + getEmail().toString() +
+                ", email = " + getInteractionId().toString() +
                 ", interactionPot = " + interactionPot + "\n";
     }
 }
