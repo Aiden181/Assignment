@@ -1,4 +1,3 @@
-import java.time.LocalDate;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -12,7 +11,7 @@ public class Lead {
 
     private String id;
     private String name;
-    private LocalDate dob;
+    private Date dob;
     private boolean gender;
     private String phone;
     private String email;
@@ -34,11 +33,11 @@ public class Lead {
         this.name = name;
     }
 
-    public LocalDate getDob() {
+    public Date getDob() {
         return dob;
     }
 
-    public void setDob(LocalDate dob) {
+    public void setDob(Date dob) {
         this.dob = dob;
     }
 
@@ -72,6 +71,14 @@ public class Lead {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public int getAge(){
+        Date now = new Date();
+        int days = (int) ((now.getTime() - this.getDob().getTime()) / (1000 * 60 * 60 * 24));
+
+        int age = (days / 365);
+        return age;
     }
 
 

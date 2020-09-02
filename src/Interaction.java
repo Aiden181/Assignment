@@ -1,9 +1,9 @@
-import java.time.LocalDate;
+import java.util.Date;
 
 public class Interaction extends Lead{
 
     private String interactionID;
-    private LocalDate dateOfInteraction;
+    private Date dateOfInteraction;
     private String interactionPot;
 
     public String getInteractionId() {
@@ -14,11 +14,11 @@ public class Interaction extends Lead{
         this.interactionID = id;
     }
 
-    public LocalDate getDateOfInteraction() {
+    public Date getDateOfInteraction() {
         return dateOfInteraction;
     }
 
-    public void setDateOfInteraction(LocalDate dateOfInteraction) {
+    public void setDateOfInteraction(Date dateOfInteraction) {
         this.dateOfInteraction = dateOfInteraction;
     }
 

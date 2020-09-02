@@ -29,7 +29,7 @@ public class Console {
             System.out.println("6. Create new interaction");
             System.out.println("7. Update an interaction");
             System.out.println("8. Delete a interaction");
-
+            System.out.println("9. Report and Statistic");
 
             input = (sc.nextLine());
             switch (input) {
@@ -60,38 +60,38 @@ public class Console {
                         System.out.println("Please enter a valid name: ");
                         name = sc.nextLine();
                     }
-                    if (name.matches("^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$")){
+                    if (name.matches("^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$")) {
                         newLead.setName(name);
                     }
 
                     // DOB Input and exception handling
                     System.out.println("Please enter lead's birthday (dd/MM/YYYY): ");
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/uuuu");
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
                     String date = sc.nextLine();
-                    while (true){
+                    while (true) {
                         try {
-                            LocalDate dob = LocalDate.parse(date, formatter);
+                            Date dob = sdf.parse(date);
                             newLead.setDob(dob);
                             break;
-                        } catch (DateTimeException e) {
+                        } catch (ParseException e) {
                             System.out.println(date + " is not a valid date");
                             System.out.println("Please enter a valid lead's birthday (dd/MM/YYYY): ");
                             date = sc.nextLine();
-                        }}
+                        }
+                    }
 
                     // Gender input and validation
                     System.out.println("Please enter lead's gender (M/F): ");
 
                     String gender = "";
                     char inputGender = sc.nextLine().charAt(0);
-                    if (inputGender == 'm' ||  inputGender == 'M') {
+                    if (inputGender == 'm' || inputGender == 'M') {
                         newLead.setGender(true);
                         gender = "Male";
-                    } else if (inputGender == 'f' || inputGender == 'F'){
+                    } else if (inputGender == 'f' || inputGender == 'F') {
                         newLead.setGender(true);
                         gender = "Female";
-                    }
-                    else {
+                    } else {
                         newLead.setGender(false);
                         gender = "false";
 //                        System.out.println("Please enter a valid character (M/F): ");
@@ -104,7 +104,7 @@ public class Console {
                         System.out.println("Please enter a valid phone number (10-digits): ");
                         phone = sc.nextLine();
                     }
-                    if (phone.matches("^\\d{10}$")){
+                    if (phone.matches("^\\d{10}$")) {
                         newLead.setPhone(phone);
                     }
 
@@ -115,7 +115,7 @@ public class Console {
                         System.out.println("Please enter a valid email: ");
                         email = sc.nextLine();
                     }
-                    if (email.matches("\\b[\\w.%-]+@[-.\\w]+\\.[A-Za-z]{2,4}\\b")){
+                    if (email.matches("\\b[\\w.%-]+@[-.\\w]+\\.[A-Za-z]{2,4}\\b")) {
                         newLead.setEmail(email);
                     }
 
@@ -126,7 +126,7 @@ public class Console {
                         System.out.println("Please enter a valid address: ");
                         address = sc.nextLine();
                     }
-                    if (address.matches("^[A-Z0-9 _]*[A-Z0-9][A-Za-z0-9 _]*$")){
+                    if (address.matches("^[A-Z0-9 _]*[A-Z0-9][A-Za-z0-9 _]*$")) {
                         newLead.setAddress(address);
                     }
 
@@ -136,7 +136,7 @@ public class Console {
                             System.out.println("File created: " + myObj.getName());
                             try {
                                 Scanner scanner = new Scanner(new File("leads.csv"));
-                                String id= "";
+                                String id = "";
                                 int lines = 1;
                                 String str1 = Integer.toString(lines);
                                 id = "lead_00" + str1;
@@ -153,14 +153,14 @@ public class Console {
                             try {
                                 // Open given file in append mode.
                                 Scanner scanner = new Scanner(new File("leads.csv"));
-                                String id= "";
+                                String id = "";
                                 int lines = 1;
-                                while (scanner.hasNext()){
+                                while (scanner.hasNext()) {
                                     String s = scanner.nextLine();
                                     lines++;
                                 }
                                 String str1 = Integer.toString(lines);
-                                if (lines < 10){
+                                if (lines < 10) {
                                     id = "lead_00" + str1;
                                 } else if (lines < 100) {
                                     id = "lead_0" + str1;
@@ -168,11 +168,10 @@ public class Console {
                                     id = "lead_" + str1;
                                 }
                                 BufferedWriter out = new BufferedWriter(new FileWriter("leads.csv", true));
-                                out.write("\n"+ id + "," + name + "," + date + "," + gender + "," + phone + "," + email + "," + address);
+                                out.write("\n" + id + "," + name + "," + date + "," + gender + "," + phone + "," + email + "," + address);
                                 out.close();
                                 System.out.println("Successfully wrote to the file.");
-                            }
-                            catch (IOException e) {
+                            } catch (IOException e) {
                                 System.out.println("exception occured" + e);
                             }
 
@@ -245,11 +244,11 @@ public class Console {
                     String deleteLead;
                     System.out.println("Enter lead ID you want to delete (lead_xxx): ");
                     deleteLead = sc.nextLine();
-                    while(!deleteLead.contains("lead_")){
+                    while (!deleteLead.contains("lead_")) {
                         System.out.println("Please enter valid lead ID (lead_xxx): ");
                         deleteLead = sc.nextLine();
                     }
-                    Lead.removeLead("leads.csv",deleteLead,1,",");
+                    Lead.removeLead("leads.csv", deleteLead, 1, ",");
                     break;
                 case "5":
 //                    System.out.println(interactions);
@@ -272,9 +271,9 @@ public class Console {
                     interactions.add(newInteraction);
 
                     // Generate ID for every interaction created
-                    if (interactions.add(newInteraction)){
-                        for (int i = 0; i < interactions.size(); i++){
-                            newInteraction.setInteractionIdId("lead_" +Integer.toString(i));
+                    if (interactions.add(newInteraction)) {
+                        for (int i = 0; i < interactions.size(); i++) {
+                            newInteraction.setInteractionIdId("lead_" + Integer.toString(i));
                         }
                     }
 
@@ -297,24 +296,19 @@ public class Console {
 
                     // Date of Interaction Input and Validation
                     System.out.println("Enter date of interaction (dd/MM/yyyy): ");
-                    DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("d/M/uuuu");
+                    SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy");
                     String date2 = sc.nextLine();
-//                    try {
-//                        LocalDate interactionDate = LocalDate.parse(date2, formatter2);
-//                        newInteraction.setDateOfInteraction(interactionDate);
-//                    } catch (DateTimeException e) {
-//                        System.out.println(date2 + " is not a valid date");
-//                    }
-                    while (true){
+                    while (true) {
                         try {
-                            LocalDate interactionDate = LocalDate.parse(date2, formatter2);
+                            Date interactionDate = sdf2.parse(date2);
                             newInteraction.setDateOfInteraction(interactionDate);
                             break;
-                        } catch (DateTimeException e) {
+                        } catch (ParseException e) {
                             System.out.println(date2 + " is not a valid date");
                             System.out.println("Please enter a valid interaction date (dd/MM/YYYY): ");
                             date2 = sc.nextLine();
-                        }}
+                        }
+                    }
 
                     //Means of interaction Input and Validation
                     System.out.println("Enter the mean of interaction (email/telephone/face to face/social media):");
@@ -357,12 +351,12 @@ public class Console {
                                 Scanner scanner = new Scanner(new File("interactions.csv"));
                                 String id2 = "";
                                 int lines2 = 1;
-                                while (scanner.hasNext()){
+                                while (scanner.hasNext()) {
                                     String s = scanner.nextLine();
                                     lines2++;
                                 }
                                 String str2 = Integer.toString(lines2);
-                                if (lines2 < 10){
+                                if (lines2 < 10) {
                                     id2 = "inter_00" + str2;
                                 } else if (lines2 < 100) {
                                     id2 = "inter_0" + str2;
@@ -370,11 +364,10 @@ public class Console {
                                     id2 = "inter_" + str2;
                                 }
                                 BufferedWriter out = new BufferedWriter(new FileWriter("interactions.csv", true));
-                                out.write("\n"+ id2 + "," + date2 + "," + means + "," + potential);
+                                out.write("\n" + id2 + "," + date2 + "," + means + "," + potential);
                                 out.close();
                                 System.out.println("Successfully wrote to the file.");
-                            }
-                            catch (IOException e) {
+                            } catch (IOException e) {
                                 System.out.println("exception occured" + e);
                             }
 
@@ -391,12 +384,38 @@ public class Console {
                     int deleteInteraction;
                     System.out.println("Enter interaction ID you want to delete (1 digit): ");
                     deleteInteraction = sc.nextInt();
-                    if (deleteInteraction <= interactions.size()){
+                    if (deleteInteraction <= interactions.size()) {
                         leads.remove(deleteInteraction - 1);
-                    }while (deleteInteraction > interactions.size()){
-                    System.out.println("Item is invalid, please re-enter a valid interaction ID: ");
-                    deleteInteraction = sc.nextInt();
-                }
+                    }
+                    while (deleteInteraction > interactions.size()) {
+                        System.out.println("Item is invalid, please re-enter a valid interaction ID: ");
+                        deleteInteraction = sc.nextInt();
+                    }
+                    break;
+                case "9":
+                    // Leads Age Report
+                    int countZeroToTen = 0;
+                    int countTenToTwenty = 0;
+                    int countTwentyToSixty = 0;
+                    int countGreaterThanSixty = 0;
+
+                    for (int i = 0; i < leads.size(); i++) {
+                        if (leads.get(i).getAge() <= 10) {
+                            countZeroToTen++;
+                        } else if (leads.get(i).getAge() > 10 && leads.get(i).getAge() <= 10) {
+                            countTenToTwenty++;
+                        } else if (leads.get(i).getAge() > 20 && leads.get(i).getAge() <= 60) {
+                            countTwentyToSixty++;
+                        } else if (leads.get(i).getAge() > 60) {
+                            countGreaterThanSixty++;
+                        }
+                    }
+                    System.out.println("0 - 10 (years old): " + countZeroToTen);
+                    System.out.println("10 - 20 (years old): " + countTenToTwenty);
+                    System.out.println("20 - 60 (years old): " + countTwentyToSixty);
+                    System.out.println("> 60 (years old): " + countGreaterThanSixty);
+
+                    // Number of Interactions by potential Report
                     break;
             }
         } while (input.equals("1") || input.equals("2") || input.equals("3") || input.equals("4") || input.equals("5")
