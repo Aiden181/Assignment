@@ -1,13 +1,10 @@
 import java.io.*;
-import java.util.Scanner;
+import java.util.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -277,23 +274,6 @@ public class Console {
                         }
                     }
 
-                    // Ask for Interaction Potential
-//                    System.out.println("What is the potential of this interaction? ");
-//                    System.out.println("1. Positive");
-//                    System.out.println("2. Negative");
-//                    System.out.println("3. Neutral");
-//                    int choice = sc.nextInt();
-//                    switch (choice){
-//                        case 1:
-//                            newInteraction.setInteractionPot("Potential");
-//                        case 2:
-//                            newInteraction.setInteractionPot("Negative");
-//                        case 3:
-//                            newInteraction.setInteractionPot("Neutral");
-//                        default:
-//                            System.out.println("Please enter a valid input (1-3): ");
-//                    }
-
                     // Date of Interaction Input and Validation
                     System.out.println("Enter date of interaction (dd/MM/yyyy): ");
                     SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy");
@@ -416,10 +396,11 @@ public class Console {
                             countGreaterThanSixty++;
                         }
                     }
+                    System.out.println("Input: No input required");
                     System.out.println("0 - 10 (years old): " + countZeroToTen);
                     System.out.println("10 - 20 (years old): " + countTenToTwenty);
                     System.out.println("20 - 60 (years old): " + countTwentyToSixty);
-                    System.out.println("> 60 (years old): " + countGreaterThanSixty);
+                    System.out.println("> 60 (years old): " + countGreaterThanSixty + "\n");
 
                     // Number of Interactions by potential Report
                     int countPositive = 0;
@@ -434,8 +415,68 @@ public class Console {
                             countNegative++;
                         }
                     }
+                    System.out.println("Input: Jan 01 2020 - December 31 2020");
+                    System.out.println("Positive: " + countPositive);
+                    System.out.println("Negative: " + countNegative);
+                    System.out.println("Neutral: " + countNeutral + "\n");
 
                     // Number of Interactions by month report
+                    Calendar cal = Calendar.getInstance();
+                    int countJan = 0;
+                    int countFeb = 0;
+                    int countMar = 0;
+                    int countApr = 0;
+                    int countMay = 0;
+                    int countJun = 0;
+                    int countJul = 0;
+                    int countAug = 0;
+                    int countSep = 0;
+                    int countOct = 0;
+                    int countNov = 0;
+                    int countDec = 0;
+                    for (int i = 0; i < interactions.size(); i++){
+                        cal.setTime(interactions.get(i).getDateOfInteraction());
+                        int month = cal.get(Calendar.MONTH);
+                        if (month == 0){
+                            countJan++;
+                        }else if (month == 1){
+                            countFeb++;
+                        }else if (month == 2){
+                            countMar++;
+                        }else if (month == 3){
+                            countApr++;
+                        }else if (month == 4){
+                            countMay++;
+                        }else if (month == 5){
+                            countJun++;
+                        }else if (month == 6){
+                            countJul++;
+                        }else if (month == 7){
+                            countAug++;
+                        }else if (month == 8){
+                            countSep++;
+                        }else if (month == 9){
+                            countOct++;
+                        }else if (month == 10){
+                            countNov++;
+                        }else if (month == 1){
+                            countDec++;
+                        }
+                    }
+                    System.out.println("Input: Jan 01 2020 - December 31 2020");
+                    System.out.println("Jan 2020: " + countJan);
+                    System.out.println("Feb 2020: " + countFeb);
+                    System.out.println("Mar 2020: " + countMar);
+                    System.out.println("Apr 2020: " + countApr);
+                    System.out.println("May 2020: " + countMay);
+                    System.out.println("Jun 2020: " + countJun);
+                    System.out.println("Jul 2020: " + countJul);
+                    System.out.println("Aug 2020: " + countAug);
+                    System.out.println("Sep 2020: " + countSep);
+                    System.out.println("Oct 2020: " + countOct);
+                    System.out.println("Nov 2020: " + countNov);
+                    System.out.println("Dec 2020: " + countDec);
+
                     break;
             }
         } while (input.equals("1") || input.equals("2") || input.equals("3") || input.equals("4") || input.equals("5")
