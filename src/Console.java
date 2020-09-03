@@ -180,62 +180,86 @@ public class Console {
                     }
                     break;
                 case "3":
+                    System.out.println("Enter lead ID you want to update (lead_xxx): ");
+                    String updateLead = sc.nextLine();
+                    while(!updateLead.contains("lead_")){
+                        System.out.println("Please enter valid lead ID (lead_xxx): ");
+                        updateLead = sc.nextLine();
+                    }
+                    String infoOfLead;
+                    System.out.println("Please enter info of lead you want to update (name/date/gender/phone/email/address): ");
+                    infoOfLead = sc.nextLine();
+                    switch (infoOfLead) {
+                        case "name" -> {
+                            System.out.println("Please enter new lead's name: ");
+                            String updateName = sc.nextLine();
+                            while (!updateName.matches("^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$")) {
+                                System.out.println("Please enter a valid name: ");
+                                updateName = sc.nextLine();
+                            }
+                            Lead.editLead("leads.csv", updateLead, updateName, "", "", "", "", "");
+                        }
+                        case "date" -> {
+                            System.out.println("Please enter new lead's birthday (dd/MM/YYYY): ");
+                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/uuuu");
+                            String updateDate = sc.nextLine();
+                            while (true) {
+                                try {
+                                    LocalDate dob = LocalDate.parse(updateDate, formatter);
+                                    break;
+                                } catch (DateTimeException e) {
+                                    System.out.println(updateDate + " is not a valid date");
+                                    System.out.println("Please enter a valid lead's birthday (dd/MM/YYYY): ");
+                                    updateDate = sc.nextLine();
+                                }
+                            }
+                            Lead.editLead("leads.csv", updateLead, "", updateDate, "", "", "", "");
+                        }
+                        case "gender" -> {
+                            System.out.println("Please enter new lead's gender (M/F): ");
+                            String updateGender = "";
+                            inputGender = sc.nextLine().charAt(0);
+                            if (inputGender == 'm' || inputGender == 'M') {
+                                updateGender = "Male";
+                            } else if (inputGender == 'f' || inputGender == 'F') {
+                                updateGender = "Female";
+                            } else {
+                                updateGender = "false";
+                            }
+                            Lead.editLead("leads.csv", updateLead, "", "", updateGender, "", "", "");
+                        }
+                        case "phone" -> {
+                            System.out.println("Please enter new lead's phone number (10 digit): ");
+                            String updatePhone = sc.nextLine();
+                            while (!updatePhone.matches("^\\d{10}$")) {
+                                System.out.println("Please enter a valid phone number (10-digits): ");
+                                updatePhone = sc.nextLine();
+                            }
+                            Lead.editLead("leads.csv", updateLead, "", "", "", updatePhone, "", "");
+                        }
+                        case "email" -> {
+                            System.out.println("Please enter new lead's email: ");
+                            String updateEmail = sc.nextLine();
+                            while (!updateEmail.matches("\\b[\\w.%-]+@[-.\\w]+\\.[A-Za-z]{2,4}\\b")) {
+                                System.out.println("Please enter a valid email: ");
+                                updateEmail = sc.nextLine();
+                            }
+                            Lead.editLead("leads.csv",updateLead,"","","","",updateEmail,"");
 
-//                    try {
-//                        File myObj = new File("leads.csv");
-//                        Scanner myReader = new Scanner(myObj);
-//                        while (myReader.hasNextLine()) {
-//                            if (updateLead == id)
-//                        }
-//
-//                    } catch (FileNotFoundException e) {
-//                        System.out.println("No lead was created");
-//                        e.printStackTrace();
-//                    }
-//                            try {
-//                                // Open given file in append mode.
-//                                Scanner scanner = new Scanner(new File("leads.csv"));
-//                                String id= "";
-//                                int lines = 1;
-//                                while (scanner.hasNext()){
-//                                    String s = scanner.nextLine();
-//                                    lines++;
-//                                }
-//                                String str1 = Integer.toString(lines);
-//                                if (lines < 10){
-//                                    id = "lead_00" + str1;
-//                                } else if (lines < 100) {
-//                                    id = "lead_0" + str1;
-//                                } else {
-//                                    id = "lead_" + str1;
-//                                }
-//                                System.out.println("Enter lead ID you want to update (lead_xxx):");
-//                                String updateLead = sc.nextLine();
-//                                if (updateLead.equals(id)) {
-//                                    System.out.println("Enter info of lead you want to update (name/date/gender/phone/email/address):");
-//                                    String infoOfLead = sc.nextLine();
-//                                    if (infoOfLead.equals("name")) {
-//                                        System.out.println("Enter new name of lead:");
-//                                        String newName = sc.nextLine();
-//                                        while (!newName.matches("^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$")) {
-//                                            System.out.println("Please enter a valid name: ");
-//                                            newName = sc.nextLine();
-//                                        }
-//                                        if (newName.matches("^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$")){
-//                                            name = newName;
-//                                        }
-//
-//                                    }
-//                                }
-//                                BufferedWriter out = new BufferedWriter(new FileWriter("leads.csv", true));
-//                                out.write("\n"+ id + "," + name + "," + date + "," + gender + "," + phone + "," + email + "," + address);
-//                                out.close();
-//                                System.out.println("Successfully wrote to the file.");
-//                            }
-//                            catch (IOException e) {
-//                                System.out.println("exception occured" + e);
-//                            }
-
+                        }
+                        case "address" -> {
+                            System.out.println("Please enter new lead's address: ");
+                            String updateAddress = sc.nextLine();
+                            while (!updateAddress.matches("^[A-Z0-9 _]*[A-Z0-9][A-Za-z0-9 _]*$")) {
+                                System.out.println("Please enter a valid address: ");
+                                updateAddress = sc.nextLine();
+                            }
+                            Lead.editLead("leads.csv",updateLead,"","","","","",updateAddress);
+                        }
+                        default -> {
+                            System.out.println("There is no info of leads match");
+                        }
+                    }
                     break;
                 case "4":
                     String deleteLead;
