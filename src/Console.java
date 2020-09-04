@@ -29,11 +29,10 @@ public class Console {
             System.out.println("9. Report and Statistic");
 
 
-
             input = (sc.nextLine());
             // User Input Validation
             while (!(input.equals("1") || input.equals("2") || input.equals("3") || input.equals("4") || input.equals("5")
-                    || input.equals("6") || input.equals("7") || input.equals("8") || input.equals("9"))){
+                    || input.equals("6") || input.equals("7") || input.equals("8") || input.equals("9"))) {
                 System.out.println("Please enter a valid option: ");
                 input = sc.nextLine();
             }
@@ -191,7 +190,7 @@ public class Console {
                 case "3":
                     System.out.println("Enter lead ID you want to update (lead_xxx): ");
                     String updateLead = sc.nextLine();
-                    while(!updateLead.contains("lead_")){
+                    while (!updateLead.contains("lead_")) {
                         System.out.println("Please enter valid lead ID (lead_xxx): ");
                         updateLead = sc.nextLine();
                     }
@@ -253,7 +252,7 @@ public class Console {
                                 System.out.println("Please enter a valid email: ");
                                 updateEmail = sc.nextLine();
                             }
-                            Lead.editLead("leads.csv",updateLead,"","","","",updateEmail,"");
+                            Lead.editLead("leads.csv", updateLead, "", "", "", "", updateEmail, "");
 
                         }
                         case "address" -> {
@@ -263,7 +262,7 @@ public class Console {
                                 System.out.println("Please enter a valid address: ");
                                 updateAddress = sc.nextLine();
                             }
-                            Lead.editLead("leads.csv",updateLead,"","","","","",updateAddress);
+                            Lead.editLead("leads.csv", updateLead, "", "", "", "", "", updateAddress);
                         }
                         default -> {
                             System.out.println("There is no info of leads match");
@@ -330,7 +329,7 @@ public class Console {
                         System.out.println("Please enter a valid mean of interaction (email/telephone/face to face/social media): ");
                         means = sc.nextLine();
                     }
-                    if (((means.matches("^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$")) && (means.toLowerCase().contains("email") || means.toLowerCase().contains("telephone") || means.toLowerCase().contains("face to face") || means.toLowerCase().contains("social media")))){
+                    if (((means.matches("^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$")) && (means.toLowerCase().contains("email") || means.toLowerCase().contains("telephone") || means.toLowerCase().contains("face to face") || means.toLowerCase().contains("social media")))) {
                         newInteraction.setInteractionMean(means);
                     }
 
@@ -416,7 +415,7 @@ public class Console {
                     System.out.println("2. Interaction Potential Report");
                     System.out.println("3. Interactions by Month Report");
                     int reportOption = sc.nextInt();
-                    switch (reportOption){
+                    switch (reportOption) {
                         case 1:
                             // Leads Age Report
                             int countZeroToTen = 0;
@@ -442,25 +441,73 @@ public class Console {
                             System.out.println("> 60 (years old): " + countGreaterThanSixty + "\n");
                             break;
                         case 2:
+                            // Asking for start - end day
+                            SimpleDateFormat sdf3 = new SimpleDateFormat("dd/MM/yyyy");
+                            System.out.println("Enter start day: ");
+                            String startDate = sc.nextLine();
+                            while (true) {
+                                try {
+                                    Date startDate1 = sdf3.parse(startDate);
+                                    break;
+                                } catch (ParseException e) {
+                                    System.out.println("Please enter a valid start date (dd/MM/YYYY): ");
+                                    startDate = sc.nextLine();
+                                }
+                            }
+                            System.out.println("Enter end day: ");
+                            String endDate = sc.nextLine();
+                            while (true) {
+                                try {
+                                    Date endDate1 = sdf3.parse(endDate);
+                                    break;
+                                } catch (ParseException e) {
+                                    System.out.println("Please enter a valid end date (dd/MM/YYYY): ");
+                                    endDate = sc.nextLine();
+                                }
+                            }
                             // Number of Interactions by potential Report
                             int countPositive = 0;
                             int countNegative = 0;
                             int countNeutral = 0;
-                            for (int i = 0; i < leads.size(); i++){
-                                if (interactions.get(i).getInteractionPot().toLowerCase().contains("positive")){
+                            for (int i = 0; i < leads.size(); i++) {
+                                if (interactions.get(i).getInteractionPot().toLowerCase().contains("positive")) {
                                     countPositive++;
-                                }else if (interactions.get(i).getInteractionPot().toLowerCase().contains("neutral")){
+                                } else if (interactions.get(i).getInteractionPot().toLowerCase().contains("neutral")) {
                                     countNeutral++;
-                                }else if (interactions.get(i).getInteractionPot().toLowerCase().contains("negative")){
+                                } else if (interactions.get(i).getInteractionPot().toLowerCase().contains("negative")) {
                                     countNegative++;
                                 }
                             }
-                            System.out.println("Input: Jan 01 2020 - December 31 2020");
+                            System.out.println("Input: " + startDate + " - " + endDate);
                             System.out.println("Positive: " + countPositive);
                             System.out.println("Negative: " + countNegative);
                             System.out.println("Neutral: " + countNeutral + "\n");
                             break;
                         case 3:
+                            // Asking for start - end day
+                            SimpleDateFormat sdf4 = new SimpleDateFormat("dd/MM/yyyy");
+                            System.out.println("Enter start day: ");
+                            String startDate2 = sc.nextLine();
+                            while (true) {
+                                try {
+                                    Date startDate1 = sdf4.parse(startDate2);
+                                    break;
+                                } catch (ParseException e) {
+                                    System.out.println("Please enter a valid start date (dd/MM/YYYY): ");
+                                    startDate2 = sc.nextLine();
+                                }
+                            }
+                            System.out.println("Enter end day: ");
+                            String endDate2 = sc.nextLine();
+                            while (true) {
+                                try {
+                                    Date endDate1 = sdf4.parse(endDate2);
+                                    break;
+                                } catch (ParseException e) {
+                                    System.out.println("Please enter a valid end date (dd/MM/YYYY): ");
+                                    endDate2 = sc.nextLine();
+                                }
+                            }
                             // Number of Interactions by month report
                             Calendar cal = Calendar.getInstance();
                             int countJan = 0;
@@ -475,36 +522,36 @@ public class Console {
                             int countOct = 0;
                             int countNov = 0;
                             int countDec = 0;
-                            for (int i = 0; i < interactions.size(); i++){
+                            for (int i = 0; i < interactions.size(); i++) {
                                 cal.setTime(interactions.get(i).getDateOfInteraction());
                                 int month = cal.get(Calendar.MONTH);
-                                if (month == 0){
+                                if (month == 0) {
                                     countJan++;
-                                }else if (month == 1){
+                                } else if (month == 1) {
                                     countFeb++;
-                                }else if (month == 2){
+                                } else if (month == 2) {
                                     countMar++;
-                                }else if (month == 3){
+                                } else if (month == 3) {
                                     countApr++;
-                                }else if (month == 4){
+                                } else if (month == 4) {
                                     countMay++;
-                                }else if (month == 5){
+                                } else if (month == 5) {
                                     countJun++;
-                                }else if (month == 6){
+                                } else if (month == 6) {
                                     countJul++;
-                                }else if (month == 7){
+                                } else if (month == 7) {
                                     countAug++;
-                                }else if (month == 8){
+                                } else if (month == 8) {
                                     countSep++;
-                                }else if (month == 9){
+                                } else if (month == 9) {
                                     countOct++;
-                                }else if (month == 10){
+                                } else if (month == 10) {
                                     countNov++;
-                                }else if (month == 1){
+                                } else if (month == 1) {
                                     countDec++;
                                 }
                             }
-                            System.out.println("Input: Jan 01 2020 - December 31 2020");
+                            System.out.println("Input: " + startDate2 + " - " + endDate2);
                             System.out.println("Jan 2020: " + countJan);
                             System.out.println("Feb 2020: " + countFeb);
                             System.out.println("Mar 2020: " + countMar);
