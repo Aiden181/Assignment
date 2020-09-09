@@ -9,11 +9,12 @@ import java.time.format.DateTimeFormatter;
 import java.io.IOException;
 
 public class Console {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ParseException {
         String input;
         Scanner sc = new Scanner(System.in);
-        List<Lead> leads = new ArrayList<Lead>();
-        List<Interaction> interactions = new ArrayList<Interaction>();
+        List<Lead> leads = new ArrayList<>();
+        List<Interaction> interactions = new ArrayList<>();
+
         do {
             System.out.println("Managing Leads");
             System.out.println("1. View all leads");
@@ -24,7 +25,7 @@ public class Console {
             System.out.println("5. View all interactions");
             System.out.println("6. Create new interaction");
             System.out.println("7. Update an interaction");
-            System.out.println("8. Delete a interaction\n\n");
+            System.out.println("8. Delete a interaction\n");
             System.out.println("9. Report and Statistic");
 
             input = (sc.nextLine());
@@ -189,7 +190,7 @@ public class Console {
                     System.out.println("Enter lead ID you want to update (lead_xxx): ");
                     String updateLead = sc.nextLine();
 
-                    while(!updateLead.contains("lead_")){
+                    while (!updateLead.contains("lead_")) {
                         System.out.println("Please enter valid lead ID (lead_xxx): ");
                         updateLead = sc.nextLine();
                     }
@@ -209,7 +210,7 @@ public class Console {
                                 updateName = sc.next();
                             }
 
-                            Lead.updateLead(updateLead,updateName);
+                            Lead.updateLead(updateLead, updateName);
 
                         }
 
@@ -229,7 +230,7 @@ public class Console {
                                 }
                             }
 
-                            Lead.updateLead(updateLead,updateDate);
+                            Lead.updateLead(updateLead, updateDate);
 
                         }
 
@@ -247,7 +248,7 @@ public class Console {
                                 updateGender = "false";
                             }
 
-                            Lead.updateLead(updateLead,updateGender);
+                            Lead.updateLead(updateLead, updateGender);
 
                         }
 
@@ -260,7 +261,7 @@ public class Console {
                                 updatePhone = sc.nextLine();
                             }
 
-                            Lead.updateLead(updateLead,updatePhone);
+                            Lead.updateLead(updateLead, updatePhone);
 
                         }
 
@@ -273,7 +274,7 @@ public class Console {
                                 updateEmail = sc.nextLine();
                             }
 
-                            Lead.updateLead(updateLead,updateEmail);
+                            Lead.updateLead(updateLead, updateEmail);
 
                         }
 
@@ -286,7 +287,7 @@ public class Console {
                                 updateAddress = sc.nextLine();
                             }
 
-                            Lead.updateLead(updateLead,updateAddress);
+                            Lead.updateLead(updateLead, updateAddress);
 
                         }
 
@@ -349,7 +350,7 @@ public class Console {
                         System.out.println("Please enter a valid mean of interaction (email/telephone/face to face/social media): ");
                         means = sc.nextLine();
                     }
-                    if (((means.matches("^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$")) && (means.toLowerCase().contains("email") || means.toLowerCase().contains("telephone") || means.toLowerCase().contains("face to face") || means.toLowerCase().contains("social media")))){
+                    if (((means.matches("^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$")) && (means.toLowerCase().contains("email") || means.toLowerCase().contains("telephone") || means.toLowerCase().contains("face to face") || means.toLowerCase().contains("social media")))) {
                         newInteraction.setInteractionMean(means);
                     }
 
@@ -437,7 +438,7 @@ public class Console {
                     System.out.println("Enter interaction ID you want to update (inter_xxx): ");
                     String updateInt = sc.nextLine();
 
-                    while(!updateInt.contains("lead_")){
+                    while (!updateInt.contains("lead_")) {
                         System.out.println("Please enter valid lead ID (lead_xxx): ");
                         updateInt = sc.nextLine();
                     }
@@ -465,7 +466,7 @@ public class Console {
                                 }
                             }
 
-                            Interaction.updateInt(updateInt,updateIntDate);
+                            Interaction.updateInt(updateInt, updateIntDate);
 
                         }
 
@@ -479,7 +480,7 @@ public class Console {
                             }
 
 
-                            Interaction.updateInt(updateInt,updateMeans);
+                            Interaction.updateInt(updateInt, updateMeans);
 
                         }
 
@@ -493,7 +494,7 @@ public class Console {
                                 updatePotential = sc.nextLine();
                             }
 
-                            Interaction.updateInt(updateInt,updatePotential);
+                            Interaction.updateInt(updateInt, updatePotential);
 
                         }
 
@@ -526,18 +527,37 @@ public class Console {
                             int countTenToTwenty = 0;
                             int countTwentyToSixty = 0;
                             int countGreaterThanSixty = 0;
+                           String searchDate;
+                           try {
+                               Scanner scanner = new Scanner(new File("interactions.csv"));
+                               scanner.useDelimiter("[,\n]");
+                               SimpleDateFormat sdf5 = new SimpleDateFormat("dd/MM/yyyy");
+                               while (scanner.hasNext()){
+                                   searchDate = scanner.next();
 
-                            for (int i = 0; i < leads.size(); i++) {
-                                if (leads.get(i).getAge() <= 10) {
-                                    countZeroToTen++;
-                                } else if (leads.get(i).getAge() > 10 && leads.get(i).getAge() <= 10) {
-                                    countTenToTwenty++;
-                                } else if (leads.get(i).getAge() > 20 && leads.get(i).getAge() <= 60) {
-                                    countTwentyToSixty++;
-                                } else if (leads.get(i).getAge() > 60) {
-                                    countGreaterThanSixty++;
-                                }
-                            }
+                                   // Convert searchDate into Date
+                                   while (searchDate.equals(sdf5)){
+                                       Date inputDate = sdf5.parse(searchDate);
+
+                                       // Convert into age
+                                       Date now = new Date();
+                                       int days = (int)((now.getTime() - inputDate.getTime() / (1000 * 60 * 60 * 24)));
+                                       int age = days / 365;
+                                       if (age > 0 && age <= 10){
+                                           countZeroToTen++;
+                                       }else if (age <= 20){
+                                           countTenToTwenty++;
+                                       }else if (age <= 60){
+                                           countTwentyToSixty++;
+                                       }else if (age > 60){
+                                           countGreaterThanSixty++;
+                                       }
+                                   }
+                               }
+                           }catch (Exception e){
+                               e.printStackTrace();
+                           }
+
                             System.out.println("Input: No input required");
                             System.out.println("0 - 10 (years old): " + countZeroToTen);
                             System.out.println("10 - 20 (years old): " + countTenToTwenty);
@@ -573,14 +593,22 @@ public class Console {
                             int countPositive = 0;
                             int countNegative = 0;
                             int countNeutral = 0;
-                            for (int i = 0; i < leads.size(); i++) {
-                                if (interactions.get(i).getInteractionPot().toLowerCase().contains("positive")) {
-                                    countPositive++;
-                                } else if (interactions.get(i).getInteractionPot().toLowerCase().contains("neutral")) {
-                                    countNeutral++;
-                                } else if (interactions.get(i).getInteractionPot().toLowerCase().contains("negative")) {
-                                    countNegative++;
+                            String searchTerm;
+                            try {
+                                Scanner x = new Scanner(new File("interactions.csv"));
+                                x.useDelimiter("[,\n]");
+                                while (x.hasNext()) {
+                                    searchTerm = x.next();
+                                    if (searchTerm.toLowerCase().equals("positive")) {
+                                        countPositive++;
+                                    } else if (searchTerm.toLowerCase().equals("neutral")) {
+                                        countNeutral++;
+                                    } else if (searchTerm.toLowerCase().equals("negative")) {
+                                        countNegative++;
+                                    }
                                 }
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
                             System.out.println("Input: " + startDate + " - " + endDate);
                             System.out.println("Positive: " + countPositive);
@@ -626,35 +654,44 @@ public class Console {
                             int countOct = 0;
                             int countNov = 0;
                             int countDec = 0;
-                            for (int i = 0; i < interactions.size(); i++) {
-                                cal.setTime(interactions.get(i).getDateOfInteraction());
-                                int month = cal.get(Calendar.MONTH);
-                                if (month == 0) {
-                                    countJan++;
-                                } else if (month == 1) {
-                                    countFeb++;
-                                } else if (month == 2) {
-                                    countMar++;
-                                } else if (month == 3) {
-                                    countApr++;
-                                } else if (month == 4) {
-                                    countMay++;
-                                } else if (month == 5) {
-                                    countJun++;
-                                } else if (month == 6) {
-                                    countJul++;
-                                } else if (month == 7) {
-                                    countAug++;
-                                } else if (month == 8) {
-                                    countSep++;
-                                } else if (month == 9) {
-                                    countOct++;
-                                } else if (month == 10) {
-                                    countNov++;
-                                } else if (month == 1) {
-                                    countDec++;
+                            String dateInput;
+                            Scanner scanner = new Scanner(new File("interactions.csv"));
+                            scanner.useDelimiter("[,\n]");
+                            SimpleDateFormat sdf6 = new SimpleDateFormat("dd/MM/yyyy");
+                            while (scanner.hasNext()){
+                                dateInput = scanner.next();
+                                while (dateInput.equals(sdf6)){
+                                    Date inputDate = sdf6.parse(dateInput);
+                                    cal.setTime(inputDate);
+                                    int month = cal.get(Calendar.MONTH);
+                                    if (month == 0) {
+                                        countJan++;
+                                    } else if (month == 1) {
+                                        countFeb++;
+                                    } else if (month == 2) {
+                                        countMar++;
+                                    } else if (month == 3) {
+                                        countApr++;
+                                    } else if (month == 4) {
+                                        countMay++;
+                                    } else if (month == 5) {
+                                        countJun++;
+                                    } else if (month == 6) {
+                                        countJul++;
+                                    } else if (month == 7) {
+                                        countAug++;
+                                    } else if (month == 8) {
+                                        countSep++;
+                                    } else if (month == 9) {
+                                        countOct++;
+                                    } else if (month == 10) {
+                                        countNov++;
+                                    } else if (month == 1) {
+                                        countDec++;
+                                    }
                                 }
                             }
+
                             System.out.println("Input: " + startDate2 + " - " + endDate2);
                             System.out.println("Jan 2020: " + countJan);
                             System.out.println("Feb 2020: " + countFeb);
