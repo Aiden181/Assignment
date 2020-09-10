@@ -1,5 +1,6 @@
 import java.io.*;
 import java.net.URI;
+import java.text.DateFormat;
 import java.util.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -571,8 +572,14 @@ public class Console {
                             String startDate = sc.nextLine();
                             while (true) {
                                 try {
+                                    // Parse String into Date Object
                                     Date startDate1 = sdf3.parse(startDate);
-                                    break;
+
+                                    // Print Format
+                                    DateFormat dFormat = new SimpleDateFormat("MMMM dd,yyyy");
+                                    // Format date into Print Format
+                                    startDate = dFormat.format(startDate1);
+                                break;
                                 } catch (ParseException e) {
                                     System.out.println("Please enter a valid start date (dd/MM/YYYY): ");
                                     startDate = sc.nextLine();
@@ -583,6 +590,10 @@ public class Console {
                             while (true) {
                                 try {
                                     Date endDate1 = sdf3.parse(endDate);
+                                    // Print Format
+                                    DateFormat dFormat = new SimpleDateFormat("MMMM dd,yyyy");
+                                    // Format date into Print Format
+                                    endDate = dFormat.format(endDate);
                                     break;
                                 } catch (ParseException e) {
                                     System.out.println("Please enter a valid end date (dd/MM/YYYY): ");
@@ -623,6 +634,10 @@ public class Console {
                             while (true) {
                                 try {
                                     Date startDate1 = sdf4.parse(startDate2);
+                                    // Print Format
+                                    DateFormat dFormat = new SimpleDateFormat("MMMM dd,yyyy");
+                                    // Format date into Print Format
+                                    startDate2 = dFormat.format(startDate1);
                                     break;
                                 } catch (ParseException e) {
                                     System.out.println("Please enter a valid start date (dd/MM/YYYY): ");
@@ -634,6 +649,10 @@ public class Console {
                             while (true) {
                                 try {
                                     Date endDate1 = sdf4.parse(endDate2);
+                                    // Print Format
+                                    DateFormat dFormat = new SimpleDateFormat("MMMM dd,yyyy");
+                                    // Format date into Print Format
+                                    endDate2 = dFormat.format(endDate1);
                                     break;
                                 } catch (ParseException e) {
                                     System.out.println("Please enter a valid end date (dd/MM/YYYY): ");
