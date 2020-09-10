@@ -530,19 +530,19 @@ public class Console {
                             int countGreaterThanSixty = 0;
                            String searchDate;
                            try {
-                               Scanner scanner = new Scanner(new File("interactions.csv"));
+                               Scanner scanner = new Scanner(new File("leads.csv"));
                                scanner.useDelimiter("[,\n]");
                                SimpleDateFormat sdf5 = new SimpleDateFormat("dd/MM/yyyy");
                                while (scanner.hasNext()){
                                    searchDate = scanner.next();
-
+                                   String regex = "^([0-2][0-9]||3[0-1])/(0[0-9]||1[0-2])/([0-9][0-9])?[0-9][0-9]$";
                                    // Convert searchDate into Date
-                                   while (searchDate.equals(sdf5)){
+                                   if (searchDate.matches(regex)){
                                        Date inputDate = sdf5.parse(searchDate);
 
                                        // Convert into age
                                        Date now = new Date();
-                                       int days = (int)((now.getTime() - inputDate.getTime() / (1000 * 60 * 60 * 24)));
+                                       int days = (int)(((now.getTime() - inputDate.getTime()) / (1000 * 60 * 60 * 24)));
                                        int age = days / 365;
                                        if (age > 0 && age <= 10){
                                            countZeroToTen++;
@@ -574,9 +574,8 @@ public class Console {
                                 try {
                                     // Parse String into Date Object
                                     Date startDate1 = sdf3.parse(startDate);
-
                                     // Print Format
-                                    DateFormat dFormat = new SimpleDateFormat("MMMM dd,yyyy");
+                                    DateFormat dFormat = new SimpleDateFormat("MMMM dd, yyyy");
                                     // Format date into Print Format
                                     startDate = dFormat.format(startDate1);
                                 break;
@@ -593,7 +592,7 @@ public class Console {
                                     // Print Format
                                     DateFormat dFormat = new SimpleDateFormat("MMMM dd,yyyy");
                                     // Format date into Print Format
-                                    endDate = dFormat.format(endDate);
+                                    endDate = dFormat.format(endDate1);
                                     break;
                                 } catch (ParseException e) {
                                     System.out.println("Please enter a valid end date (dd/MM/YYYY): ");
@@ -635,9 +634,9 @@ public class Console {
                                 try {
                                     Date startDate1 = sdf4.parse(startDate2);
                                     // Print Format
-                                    DateFormat dFormat = new SimpleDateFormat("MMMM dd,yyyy");
+                                    DateFormat dFormat = new SimpleDateFormat("MMMM dd, yyyy");
                                     // Format date into Print Format
-                                    startDate2 = dFormat.format(startDate1);
+                                   startDate2 = dFormat.format(startDate1);
                                     break;
                                 } catch (ParseException e) {
                                     System.out.println("Please enter a valid start date (dd/MM/YYYY): ");
@@ -679,7 +678,8 @@ public class Console {
                             SimpleDateFormat sdf6 = new SimpleDateFormat("dd/MM/yyyy");
                             while (scanner.hasNext()){
                                 dateInput = scanner.next();
-                                while (dateInput.equals(sdf6)){
+                                String regex = "^([0-2][0-9]||3[0-1])/(0[0-9]||1[0-2])/([0-9][0-9])?[0-9][0-9]$";
+                                if (dateInput.matches(regex)){
                                     Date inputDate = sdf6.parse(dateInput);
                                     cal.setTime(inputDate);
                                     int month = cal.get(Calendar.MONTH);
