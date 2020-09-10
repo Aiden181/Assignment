@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.URI;
 import java.text.DateFormat;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -705,7 +706,7 @@ public class Console {
                                         countOct++;
                                     } else if (month == 10) {
                                         countNov++;
-                                    } else if (month == 1) {
+                                    } else if (month == 11) {
                                         countDec++;
                                     }
                                 }
