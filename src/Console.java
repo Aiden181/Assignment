@@ -570,6 +570,7 @@ public class Console {
                             // Asking for start - end day
                             SimpleDateFormat sdf3 = new SimpleDateFormat("dd/MM/yyyy");
                             System.out.println("Enter start day: ");
+                            sc = new Scanner(System.in);
                             String startDate = sc.nextLine();
                             while (true) {
                                 try {
@@ -630,6 +631,7 @@ public class Console {
                             // Asking for start - end day
                             SimpleDateFormat sdf4 = new SimpleDateFormat("dd/MM/yyyy");
                             System.out.println("Enter start day: ");
+                            sc = new Scanner(System.in);
                             String startDate2 = sc.nextLine();
                             while (true) {
                                 try {
