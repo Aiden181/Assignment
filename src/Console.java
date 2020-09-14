@@ -90,6 +90,10 @@ public class Console {
 
                     String gender;
                     char inputGender = sc.nextLine().charAt(0);
+                    while (!(inputGender == 'm') || inputGender == 'f' || inputGender == 'F' || inputGender == 'M'){
+                        System.out.println("Please enter a valid gender (M/F): ");
+                        inputGender = sc.nextLine().charAt(0);
+                    }
                     if (inputGender == 'm' || inputGender == 'M') {
                         newLead.setGender(true);
                         gender = "Male";
@@ -242,6 +246,10 @@ public class Console {
                             System.out.println("Please enter new lead's gender (M/F): ");
                             String updateGender = "";
                             inputGender = sc.nextLine().charAt(0);
+                            while (!(inputGender == 'm') || inputGender == 'f' || inputGender == 'F' || inputGender == 'M'){
+                                System.out.println("Please enter a valid gender (M/F): ");
+                                inputGender = sc.nextLine().charAt(0);
+                            }
                             if (inputGender == 'm' || inputGender == 'M') {
                                 updateGender = "Male";
                             } else if (inputGender == 'f' || inputGender == 'F') {
@@ -514,10 +522,10 @@ public class Console {
                 case "8":
                     // Select interaction's ID to delete
                     String deleteInteraction;
-                    System.out.println("Enter interaction ID you want to delete (lead_xxx): ");
+                    System.out.println("Enter interaction ID you want to delete (inter_xxx): ");
                     deleteInteraction = sc.nextLine();
-                    while (!deleteInteraction.contains("lead_")) {
-                        System.out.println("Please enter valid lead ID (lead_xxx): ");
+                    while (!deleteInteraction.contains("inter_")) {
+                        System.out.println("Please enter valid inter ID (inter_xxx): ");
                         deleteInteraction = sc.nextLine();
                     }
                     Interaction.removeInt("interactions.csv", deleteInteraction, 1);
