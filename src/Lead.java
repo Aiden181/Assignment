@@ -1,4 +1,3 @@
-
 import java.io.*;
 import java.util.Date;
 import java.util.Scanner;
@@ -82,18 +81,18 @@ public class Lead {
 
     @Override
     public String toString() {
-        return "id = " + id +
-                ", name = " + name +
+        return
+                " name = " + name +
                 ", dob = " + dob +
                 ", gender = " + gender +
                 ", phone = " + phone +
                 ", email = " + email +
-                ", address = " + address + "\n";
+                ", address = " + address;
     }
 
     public static void removeLead(String filepath, String removeTerm, int positionOfTerm) {
         int position = positionOfTerm - 1;
-        String tempFile = "leads.csv";
+        String tempFile = "temp.csv";
         File oldFile = new File(filepath);
         File newFile = new File(tempFile);
 
@@ -147,50 +146,56 @@ public class Lead {
         String address;
 
         try {
-            FileWriter fw = new FileWriter(newFile,true);
+            FileWriter fw = new FileWriter(newFile);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter pw = new PrintWriter(bw);
-            Scanner x = new Scanner(new File(filepath));
-            x.useDelimiter(",|\\n");
+            Scanner sc = new Scanner(oldFile);
+            sc.useDelimiter("[,\n]");
 
-            while (x.hasNext()) {
-                id = x.next();
-                name = x.next();
-                date = x.next();
-                gender = x.next();
-                phone = x.next();
-                email = x.next();
-                address = x.next();
+            while (sc.hasNext()) {
+                id = sc.next();
+                name = sc.next();
+                date = sc.next();
+                gender = sc.next();
+                phone = sc.next();
+                email = sc.next();
+                address = sc.next();
 
                 if (id.equals(editTerm)) {
                     if (!newData.equals(name)) {
-                        pw.print(id + "," + newData + "," + date + "," + gender + "," + phone + "," + email + "," + address);
+                        pw.print(id + "," + newData + "," + date + "," + gender + "," + phone + "," + email + "," + address + ",");
                     } else if (!newData.equals(date)) {
-                        pw.print(id + "," + name + "," + newData + "," + gender + "," + phone + "," + email + "," + address);
+                        pw.print(id + "," + name + "," + newData + "," + gender + "," + phone + "," + email + "," + address + ",");
                     } else if (!newData.equals(gender)) {
-                        pw.print(id + "," + name + "," + date + "," + newData + "," + phone + "," + email + "," + address);
+                        pw.print(id + "," + name + "," + date + "," + newData + "," + phone + "," + email + "," + address + ",");
                     } else if (!newData.equals(phone)) {
-                        pw.print(id + "," + name + "," + date + "," + gender + "," + newData + "," + email + "," + address);
+                        pw.print(id + "," + name + "," + date + "," + gender + "," + newData + "," + email + "," + address + ",");
                     } else if (!newData.equals(email)) {
-                        pw.print(id + "," + name + "," + date + "," + gender + "," + phone + "," + newData + "," + address);
+                        pw.print(id + "," + name + "," + date + "," + gender + "," + phone + "," + newData + "," + address + ",");
                     } else if (!newData.equals(address)) {
-                        pw.print(id + "," + name + "," + date + "," + gender + "," + phone + "," + email + "," + newData);
+                        pw.print(id + "," + name + "," + date + "," + gender + "," + phone + "," + email + "," + newData + ",");
                     }
                 } else {
-                    pw.print(id + "," + name + "," + date + "," + gender + "," + phone + "," + email + "," + address);
-            }}
-
-            x.close();
+                    pw.print(id + "," + name + "," + date + "," + gender + "," + phone + "," + email + "," + address + ",");
+            }
+            }
+            sc.close();
             pw.flush();
             pw.close();
 
-            oldFile.delete();
-            File dump = new File(filepath);
-            newFile.renameTo(dump);
+            Scanner y = new Scanner (new File(tempFile));
+            FileWriter fw1 = new FileWriter(filepath,false);
+            BufferedWriter bb=new BufferedWriter(fw1);
+            PrintWriter pp = new PrintWriter(bb);
+            while (y.hasNext()){
+                pp.println(y.next());
+            }
+            y.close();
+            pp.flush();
+            pp.close();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 }

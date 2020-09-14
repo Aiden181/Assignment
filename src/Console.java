@@ -306,10 +306,16 @@ public class Console {
                         System.out.println("Please enter valid lead ID (lead_xxx): ");
                         deleteLead = sc.nextLine();
                     }
-                    Lead.removeLead("leads.csv", deleteLead, 1);
+                    System.out.println("Do you want to delete the related interaction (Yes/No):");
+                    String confirmation = sc.nextLine();
+                    if (confirmation.equals("Yes")) {
+                        Lead.removeLead("leads.csv", deleteLead, 1);
+                        Interaction.removeInt("interactions.csv", deleteLead,3);
+                    } else {
+                        Lead.removeLead("leads.csv", deleteLead, 1);
+                    }
                     break;
                 case "5":
-
                     // Print out all created interactions
                     try {
                         File myObj2 = new File("interactions.csv");
@@ -407,9 +413,9 @@ public class Console {
                                 }
                                 scanner = new Scanner(new File("leads.csv"));
                                 String id = "";
-                                int lines = 1;
+                                int lines = 0;
                                 while (scanner.hasNext()) {
-                                    String s = scanner.next();
+                                    String s = scanner.nextLine();
                                     lines++;
                                 }
                                 String str1 = Integer.toString(lines);
@@ -421,7 +427,7 @@ public class Console {
                                     id = "lead_" + str1;
                                 }
                                 BufferedWriter out = new BufferedWriter(new FileWriter("interactions.csv", true));
-                                out.write(id2 + "," + date2 + "," + id + "," + means + "," + potential + "\n");
+                                out.write(id2 + "," + date2 + "," + id + "," + means + "," + potential + "," + "\n");
                                 out.close();
                                 System.out.println("Successfully wrote to the file.");
                             } catch (IOException e) {
@@ -551,7 +557,7 @@ public class Console {
                                            countTenToTwenty++;
                                        }else if (age <= 60){
                                            countTwentyToSixty++;
-                                       }else if (age > 60){
+                                       }else{
                                            countGreaterThanSixty++;
                                        }
                                    }
@@ -732,7 +738,7 @@ public class Console {
                     break;
             }
         } while (input.equals("1") || input.equals("2") || input.equals("3") || input.equals("4") || input.equals("5")
-                || input.equals("6") || input.equals("7") || input.equals("8"));
+                || input.equals("6") || input.equals("7") || input.equals("8") );
     }
 
 }

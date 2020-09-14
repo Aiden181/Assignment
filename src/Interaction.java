@@ -52,7 +52,7 @@ public class Interaction extends Lead {
 
     public static void removeInt(String filepath, String removeTerm, int positionOfTerm) {
         int position = positionOfTerm - 1;
-        String tempFile = "leads.csv";
+        String tempFile = "temp2.csv";
         File oldFile = new File(filepath);
         File newFile = new File(tempFile);
 
