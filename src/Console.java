@@ -1,7 +1,5 @@
 import java.io.*;
-import java.net.URI;
 import java.text.DateFormat;
-import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -392,71 +390,23 @@ public class Console {
                             break;
 
                         case 3:
-                            // Asking for start - end day
-                            SimpleDateFormat sdf4 = new SimpleDateFormat("dd/MM/yyyy");
+                            // Asking for start day
                             System.out.println("Enter start day: ");
                             sc = new Scanner(System.in);
                             String startDate2 = sc.nextLine();
-                            Date startDate3 = new Date();
-                            while (true) {
-                                try {
-                                    startDate3 = sdf4.parse(startDate2);
-                                    // Print Format
-                                    DateFormat dFormat = new SimpleDateFormat("MMMM dd, yyyy");
-                                    // Format date into Print Format
-                                    startDate2 = dFormat.format(startDate3);
-                                    break;
-                                } catch (ParseException e) {
-                                    System.out.println("Please enter a valid start date (dd/MM/YYYY): ");
-                                    startDate2 = sc.nextLine();
-                                }
-                            }
+
+                            // Asking for end day
                             System.out.println("Enter end day: ");
                             String endDate2 = sc.nextLine();
-                            Date endDate3 = new Date();
-                            while (true) {
-                                try {
-                                    endDate3 = sdf4.parse(endDate2);
-                                    // Print Format
-                                    DateFormat dFormat = new SimpleDateFormat("MMMM dd,yyyy");
-                                    // Format date into Print Format
-                                    endDate2 = dFormat.format(endDate3);
-                                    break;
-                                } catch (ParseException e) {
-                                    System.out.println("Please enter a valid end date (dd/MM/YYYY): ");
-                                    endDate2 = sc.nextLine();
-                                }
-                            }
-
 
                             // Number of Interactions by month report
-                            Calendar cal = Calendar.getInstance();
-                            int countJan = 0;
-                            String dateInput;
-                            Scanner scanner = new Scanner(new File("interactions.csv"));
-                            while (scanner.hasNext()) {
-                                dateInput = scanner.nextLine();
-                                String[] arr = dateInput.split(",");
-                                sdf4 = new SimpleDateFormat("dd/MM/yyyy");
-                                Date IntDate2 = sdf4.parse(arr[1]);
-                                if (startDate3.getTime() < IntDate2.getTime() && IntDate2.getTime() < endDate3.getTime()) {
-
-                                    countJan++;
-
-                                }
-                                String[] arr2 = new String[countJan];
-                                System.out.println(arr2);
-                                scanner = new Scanner(new File("interactions.csv"));
-                                if (startDate3.getTime() < IntDate2.getTime() && IntDate2.getTime() < endDate3.getTime()) {
-
-                                }
-                            }
+                            myReport.countIntMonth("interactions.csv",startDate2,endDate2);
                             break;
                             }
+
                             break;
                     }
-
-        } while (true);
+            } while (true);
     }
 
 }

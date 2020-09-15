@@ -1,4 +1,4 @@
-inter_001,13/6/2020,lead_001,face to face,positive
+inter_001,13/06/2020,lead_001,face to face,positive
 inter_002,08/07/2020,lead_002,telephone,neutral
 inter_003,07/05/2020,lead_003,face to face,negative
 inter_004,07/05/2020,lead_004,email,negative
@@ -8,5 +8,3 @@ inter_007,07/05/2020,lead_007,face to face,positive
 inter_008,07/05/2020,lead_008,social media,neutral
 inter_009,07/05/2020,lead_009,face to face,positive
 inter_010,07/05/2020,lead_010,social media,negative
-inter_011,14/09/2020,lead_011,telephone,neutral
-inter_012,14/09/2020,lead_012,face to face,negative

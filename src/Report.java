@@ -1,8 +1,11 @@
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 
 public class Report {
@@ -107,6 +110,89 @@ public class Report {
         System.out.println("Positive: " + countPositive);
         System.out.println("Negative: " + countNegative);
         System.out.println("Neutral: " + countNeutral + "\n");
+    }
+
+    public void countIntMonth(String filepath,String startDate2,String endDate2) throws ParseException, FileNotFoundException {
+        Scanner sc = new Scanner(System.in);
+        SimpleDateFormat sdf4 = new SimpleDateFormat("dd/MM/yyyy");
+        Date startDate3 = new Date();
+        while (true) {
+            try {
+                startDate3 = sdf4.parse(startDate2);
+                // Print Format
+                DateFormat dFormat = new SimpleDateFormat("MMMM dd, yyyy");
+                // Format date into Print Format
+                startDate2 = dFormat.format(startDate3);
+                break;
+            } catch (ParseException e) {
+                System.out.println("Please enter a valid start date (dd/MM/YYYY): ");
+                startDate2 = sc.nextLine();
+            }
+        }
+
+        Date endDate3 = new Date();
+        while (true) {
+            try {
+                endDate3 = sdf4.parse(endDate2);
+                // Print Format
+                DateFormat dFormat = new SimpleDateFormat("MMMM dd,yyyy");
+                // Format date into Print Format
+                endDate2 = dFormat.format(endDate3);
+                break;
+            } catch (ParseException e) {
+                System.out.println("Please enter a valid end date (dd/MM/YYYY): ");
+                endDate2 = sc.nextLine();
+            }
+        }
+        int countJan = 0;
+        String dateInput;
+        Scanner scanner = new Scanner(new File(filepath));
+        while (scanner.hasNext()) {
+            dateInput = scanner.nextLine();
+            String[] arr = dateInput.split(",");
+            sdf4 = new SimpleDateFormat("dd/MM/yyyy");
+            Date IntDate2 = sdf4.parse(arr[1]);
+            if (startDate3.getTime() < IntDate2.getTime() && IntDate2.getTime() < endDate3.getTime()) {
+                countJan++;
+            }
+        }
+        String[] arr2 = new String[countJan];
+        scanner.close();
+        scanner = new Scanner(new File(filepath));
+        int i = 0;
+        while (scanner.hasNext()){
+            dateInput = scanner.nextLine();
+            String[] arr = dateInput.split(",");
+            sdf4 = new SimpleDateFormat("dd/MM/yyyy");
+            Date IntDate2 = sdf4.parse(arr[1]);
+            String onlyMonth = arr[1].split("/")[1];
+            String onlyYear = arr[1].split("/")[2];
+            if (startDate3.getTime() < IntDate2.getTime() && IntDate2.getTime() < endDate3.getTime()) {
+                arr2[i++] = onlyMonth + "/" + onlyYear;
+            }
+        }
+        String[] loopMonth = new String[i+1];
+        i = 0;
+        for (String dateByMonth:arr2){
+            int countMonth = 0;
+            for (String dateMonth:arr2) {
+                if (dateByMonth.equals(dateMonth)){
+                    countMonth++;
+                }
+            }
+            List<String> list = Arrays.asList(loopMonth);
+            if(!list.contains(dateByMonth)){
+                loopMonth[i++] = dateByMonth;
+                SimpleDateFormat sdf5 = new SimpleDateFormat("MM/yyyy");
+                Date dateB = new Date();
+                dateB = sdf5.parse(dateByMonth);
+                DateFormat dFormat = new SimpleDateFormat("MMMM ,yyyy");
+                dateByMonth = dFormat.format(dateB);
+                System.out.println(dateByMonth);
+                System.out.println(countMonth);
+            }
+
+        }
     }
 
 }
