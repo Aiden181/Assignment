@@ -2,55 +2,136 @@ import java.io.*;
 import java.util.Date;
 import java.util.Scanner;
 
-public class Interaction extends Lead {
+public class Interaction implements ViewFile,Delete {
 
-    private String interactionID;
-    private Date dateOfInteraction;
-    private String interactionPot;
-    private String interactionMean;
+//    private String interactionID;
+//    private Date dateOfInteraction;
+//    private String interactionPot;
+//    private String interactionMean;
+//
+//    public String getInteractionId() {
+//        return interactionID;
+//    }
+//
+//    public void setInteractionIdId(String id) {
+//        this.interactionID = id;
+//    }
+//
+//    public Date getDateOfInteraction() {
+//        return dateOfInteraction;
+//    }
+//
+//    public void setDateOfInteraction(Date dateOfInteraction) {
+//        this.dateOfInteraction = dateOfInteraction;
+//    }
+//
+//    public String getInteractionMean() {
+//        return interactionMean;
+//    }
+//
+//    public void setInteractionMean(String interactionMean) {
+//        this.interactionMean = interactionMean;
+//    }
+//
+//    public String getInteractionPot() {
+//        return interactionPot;
+//    }
+//
+//    public void setInteractionPot(String interactionPot) {
+//        this.interactionPot = interactionPot;
+//    }
+//
+//    @Override
+//    public String toString() {
+//        return "interactionID = " + interactionID +
+//                ", dateOfInteraction = " + dateOfInteraction +
+//                ", id = " + getId().toString() +
+//                ", email = " + getInteractionId().toString() +
+//                ", interactionPot = " + interactionPot + "\n";
+//    }
 
-    public String getInteractionId() {
-        return interactionID;
+    public void view(String filepath){
+        try {
+            File myObj2 = new File(filepath);
+            Scanner myReader = new Scanner(myObj2);
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+                System.out.println(data);
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("No interaction was created");
+            e.printStackTrace();
+        }
     }
 
-    public void setInteractionIdId(String id) {
-        this.interactionID = id;
+    public void createIntFile(String filepath,String date2,String means,String potential){
+        try {
+            File myObj2 = new File(filepath);
+            if (myObj2.createNewFile()) {
+                System.out.println("File created: " + myObj2.getName());
+                try {
+                    String id2 = "";
+                    int lines2 = 1;
+                    String str2 = Integer.toString(lines2);
+                    id2 = "inter_00" + str2;
+                    FileWriter myWriter = new FileWriter(filepath);
+                    myWriter.write(id2 + "," + date2 + "," + "lead_001" + "," + means + "," + potential);
+                    myWriter.close();
+                    System.out.println("Successfully wrote to the file.");
+                } catch (IOException e) {
+                    System.out.println("An error occurred.");
+                    e.printStackTrace();
+                }
+            } else {
+                System.out.println("File already exists.");
+                try {
+                    // Open given file in append mode.
+                    Scanner scanner = new Scanner(new File(filepath));
+                    String id2 = "";
+                    int lines2 = 1;
+                    while (scanner.hasNext()) {
+                        String s = scanner.nextLine();
+                        lines2++;
+                    }
+                    String str2 = Integer.toString(lines2);
+                    if (lines2 < 10) {
+                        id2 = "inter_00" + str2;
+                    } else if (lines2 < 100) {
+                        id2 = "inter_0" + str2;
+                    } else {
+                        id2 = "inter_" + str2;
+                    }
+                    scanner = new Scanner(new File("leads.csv"));
+                    String id = "";
+                    int lines = 0;
+                    while (scanner.hasNext()) {
+                        String s = scanner.nextLine();
+                        lines++;
+                    }
+                    String str1 = Integer.toString(lines);
+                    if (lines < 10) {
+                        id = "lead_00" + str1;
+                    } else if (lines < 100) {
+                        id = "lead_0" + str1;
+                    } else {
+                        id = "lead_" + str1;
+                    }
+                    BufferedWriter out = new BufferedWriter(new FileWriter(filepath, true));
+                    out.write("\n"+id2 + "," + date2 + "," + id + "," + means + "," + potential);
+                    out.close();
+                    System.out.println("Successfully wrote to the file.");
+                } catch (IOException e) {
+                    System.out.println("exception occured" + e);
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
     }
 
-    public Date getDateOfInteraction() {
-        return dateOfInteraction;
-    }
-
-    public void setDateOfInteraction(Date dateOfInteraction) {
-        this.dateOfInteraction = dateOfInteraction;
-    }
-
-    public String getInteractionMean() {
-        return interactionMean;
-    }
-
-    public void setInteractionMean(String interactionMean) {
-        this.interactionMean = interactionMean;
-    }
-
-    public String getInteractionPot() {
-        return interactionPot;
-    }
-
-    public void setInteractionPot(String interactionPot) {
-        this.interactionPot = interactionPot;
-    }
-
-    @Override
-    public String toString() {
-        return "interactionID = " + interactionID +
-                ", dateOfInteraction = " + dateOfInteraction +
-                ", id = " + getId().toString() +
-                ", email = " + getInteractionId().toString() +
-                ", interactionPot = " + interactionPot + "\n";
-    }
-
-    public static void removeInt(String filepath, String removeTerm, int positionOfTerm) {
+    public void remove(String filepath, String removeTerm, int positionOfTerm) {
         int position = positionOfTerm - 1;
         String tempFile = "temp2.csv";
         File oldFile = new File(filepath);
@@ -89,7 +170,7 @@ public class Interaction extends Lead {
         }
     }
 
-    public static void updateInt(String editTerm, String newData) {
+    public void updateInt(String editTerm, String newDate,String newMeans,String newPotential) {
         String tempFile = "temp.csv";
         String filepath = "interactions.csv";
 
@@ -103,32 +184,35 @@ public class Interaction extends Lead {
         String potential;
 
         try {
-            FileWriter fw = new FileWriter(newFile, true);
+            FileWriter fw = new FileWriter(newFile);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter pw = new PrintWriter(bw);
-            Scanner x = new Scanner(new File(filepath));
-            x.useDelimiter(",|\\n");
+            Scanner scanner = new Scanner(new File(filepath));
 
-            while (x.hasNext()) {
-                id = x.next();
-                date = x.next();
-                leadId = x.next();
-                means = x.next();
-                potential = x.next();
+
+            while (scanner.hasNext()) {
+                String intUpdate = scanner.nextLine();
+                String[] int_arr = intUpdate.split(",");
+                id = int_arr[0];
+                date = int_arr[1];
+                leadId = int_arr[2];
+                means = int_arr[3];
+                potential = int_arr[4];
 
                 if (id.equals(editTerm)) {
-                    if (!newData.equals(date)) {
-                        pw.print(id + "," + newData + "," + leadId + "," + means + "," + potential);
-                    } else if (!newData.equals(means)) {
-                        pw.print(id + "," + date + "," + leadId + "," + newData + "," + potential);
-                    } else if (!newData.equals(potential)) {
-                        pw.print(id + "," + date + "," + leadId + "," + means + "," + newData);
-                    } else {
-                        pw.print(id + "," + date + "," + leadId + "," + newData + "," + potential);
+                    if (!newDate.equals("")) {
+                        pw.println(id + "," + newDate + "," + leadId + "," + means + "," + potential);
+                    } else if (!newMeans.equals("")) {
+                        pw.println(id + "," + date + "," + leadId + "," + newMeans + "," + potential);
+                    } else if (!newPotential.equals("")) {
+                        pw.println(id + "," + date + "," + leadId + "," + means + "," + newPotential);
                     }
+                } else {
+                    pw.println(id + "," + date + "," + leadId + "," + means + "," + potential);
                 }
+            }
 
-                x.close();
+                scanner.close();
                 pw.flush();
                 pw.close();
 
@@ -136,7 +220,6 @@ public class Interaction extends Lead {
                 File dump = new File(filepath);
                 newFile.renameTo(dump);
 
-            }
         } catch (Exception e) {
             e.printStackTrace();
         }

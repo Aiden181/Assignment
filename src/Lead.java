@@ -3,7 +3,7 @@ import java.util.Date;
 import java.util.Scanner;
 
 
-public class Lead {
+public class Lead implements ViewFile,Delete {
 
     private String id;
     private String name;
@@ -90,7 +90,139 @@ public class Lead {
                 ", address = " + address;
     }
 
-    public static void removeLead(String filepath, String removeTerm, int positionOfTerm) {
+    public void view(String filepath) {
+        try {
+            File myObj = new File(filepath);
+            Scanner myReader = new Scanner(myObj);
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+                System.out.println(data);
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("No lead was created");
+            e.printStackTrace();
+        }
+    }
+
+    public void createFileLead(String filepath,String name,String date,String gender,String phone,String email,String address) {
+        try {
+            File myObj = new File(filepath);
+            if (myObj.createNewFile()) {
+                System.out.println("File created: " + myObj.getName());
+                try {
+                    String id = "";
+                    int lines = 1;
+                    String str1 = Integer.toString(lines);
+                    id = "lead_00" + str1;
+                    FileWriter myWriter = new FileWriter(filepath);
+                    myWriter.write(id + "," + name + "," + date + "," + gender + "," + phone + "," + email + "," + address);
+                    myWriter.close();
+                    System.out.println("Successfully wrote to the file.");
+                } catch (IOException e) {
+                    System.out.println("An error occurred.");
+                    e.printStackTrace();
+                }
+            } else {
+                System.out.println("File already exists.");
+                try {
+                    // Open given file in append mode.
+                    Scanner scanner = new Scanner(new File("leads.csv"));
+                    String id = "";
+                    int lines = 1;
+                    while (scanner.hasNext()) {
+                        String s = scanner.nextLine();
+                        lines++;
+                    }
+                    String str1 = Integer.toString(lines);
+                    if (lines < 10) {
+                        id = "lead_00" + str1;
+                    } else if (lines < 100) {
+                        id = "lead_0" + str1;
+                    } else {
+                        id = "lead_" + str1;
+                    }
+                    BufferedWriter out = new BufferedWriter(new FileWriter("leads.csv", true));
+                    out.write("\n" + id + "," + name + "," + date + "," + gender + "," + phone + "," + email + "," + address);
+                    out.close();
+                    System.out.println("Successfully wrote to the file.");
+                } catch (IOException e) {
+                    System.out.println("exception occured" + e);
+                }
+
+            }
+
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+
+    public void updateLead(String editTerm,String newName,String newDate,String newGender,String newPhone,String newEmail,String newAddress) {
+        String tempFile = "temp.csv";
+        String filepath = "leads.csv";
+
+        File oldFile = new File(filepath);
+        File newFile = new File(tempFile);
+
+        String id;
+        String name;
+        String date;
+        String gender;
+        String phone;
+        String email;
+        String address;
+
+        try {
+            FileWriter fw = new FileWriter(newFile);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter pw = new PrintWriter(bw);
+            Scanner sc = new Scanner(oldFile);
+
+            while (sc.hasNext()) {
+                String leadUpdate = sc.nextLine();
+                String[] lead_arr = leadUpdate.split(",");
+                id = lead_arr[0];
+                name = lead_arr[1];
+                date = lead_arr[2];
+                gender = lead_arr[3];
+                phone = lead_arr[4];
+                email = lead_arr[5];
+                address = lead_arr[6];
+                System.out.println(name);
+                if (id.equals(editTerm)) {
+                    if (!newName.equals("")) {
+                        pw.println(id + "," + newName + "," + date + "," + gender + "," + phone + "," + email + "," + address);
+                    } else if (!newDate.equals("")) {
+                        pw.println(id + "," + name + "," + newDate + "," + gender + "," + phone + "," + email + "," + address);
+                    } else if (!newGender.equals("")) {
+                        pw.println(id + "," + name + "," + date + "," + newGender + "," + phone + "," + email + "," + address);
+                    } else if (!newPhone.equals("")) {
+                        pw.println(id + "," + name + "," + date + "," + gender + "," + newPhone + "," + email + "," + address);
+                    } else if (!newEmail.equals("")) {
+                        pw.println(id + "," + name + "," + date + "," + gender + "," + phone + "," + newEmail + "," + address);
+                    } else if (!newAddress.equals("")) {
+                        pw.println(id + "," + name + "," + date + "," + gender + "," + phone + "," + email + "," + newAddress);
+                    }
+                }
+                else {
+                    pw.println(id + "," + name + "," + date + "," + gender + "," + phone + "," + email + "," + address);
+                }
+            }
+            sc.close();
+            pw.flush();
+            pw.close();
+
+            oldFile.delete();
+            File dump = new File(filepath);
+            newFile.renameTo(oldFile);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void remove(String filepath, String removeTerm, int positionOfTerm) {
         int position = positionOfTerm - 1;
         String tempFile = "temp.csv";
         File oldFile = new File(filepath);
@@ -126,76 +258,6 @@ public class Lead {
             newFile.renameTo(dump);
         } catch (Exception e) {
             System.out.println("error");
-        }
-    }
-
-
-    public static void updateLead(String editTerm,String newData) {
-        String tempFile = "temp.csv";
-        String filepath = "leads.csv";
-
-        File oldFile = new File(filepath);
-        File newFile = new File(tempFile);
-
-        String id;
-        String name;
-        String date;
-        String gender;
-        String phone;
-        String email;
-        String address;
-
-        try {
-            FileWriter fw = new FileWriter(newFile);
-            BufferedWriter bw = new BufferedWriter(fw);
-            PrintWriter pw = new PrintWriter(bw);
-            Scanner sc = new Scanner(oldFile);
-            sc.useDelimiter("[,\n]");
-
-            while (sc.hasNext()) {
-                id = sc.next();
-                name = sc.next();
-                date = sc.next();
-                gender = sc.next();
-                phone = sc.next();
-                email = sc.next();
-                address = sc.next();
-
-                if (id.equals(editTerm)) {
-                    if (!newData.equals(name)) {
-                        pw.print(id + "," + newData + "," + date + "," + gender + "," + phone + "," + email + "," + address + ",");
-                    } else if (!newData.equals(date)) {
-                        pw.print(id + "," + name + "," + newData + "," + gender + "," + phone + "," + email + "," + address + ",");
-                    } else if (!newData.equals(gender)) {
-                        pw.print(id + "," + name + "," + date + "," + newData + "," + phone + "," + email + "," + address + ",");
-                    } else if (!newData.equals(phone)) {
-                        pw.print(id + "," + name + "," + date + "," + gender + "," + newData + "," + email + "," + address + ",");
-                    } else if (!newData.equals(email)) {
-                        pw.print(id + "," + name + "," + date + "," + gender + "," + phone + "," + newData + "," + address + ",");
-                    } else if (!newData.equals(address)) {
-                        pw.print(id + "," + name + "," + date + "," + gender + "," + phone + "," + email + "," + newData + ",");
-                    }
-                } else {
-                    pw.print(id + "," + name + "," + date + "," + gender + "," + phone + "," + email + "," + address + ",");
-            }
-            }
-            sc.close();
-            pw.flush();
-            pw.close();
-
-            Scanner y = new Scanner (new File(tempFile));
-            FileWriter fw1 = new FileWriter(filepath,false);
-            BufferedWriter bb=new BufferedWriter(fw1);
-            PrintWriter pp = new PrintWriter(bb);
-            while (y.hasNext()){
-                pp.println(y.next());
-            }
-            y.close();
-            pp.flush();
-            pp.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 }

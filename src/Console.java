@@ -14,15 +14,16 @@ public class Console {
     public static void main(String[] args) throws IOException, ParseException {
         String input;
         Scanner sc = new Scanner(System.in);
-        List<Lead> leads = new ArrayList<>();
-        List<Interaction> interactions = new ArrayList<>();
+        Lead myLead = new Lead();
+        Interaction myInteraction = new Interaction();
+        Report myReport = new Report();
 
         do {
             System.out.println("Managing Leads");
             System.out.println("1. View all leads");
             System.out.println("2. Create new lead");
             System.out.println("3. Update a lead");
-            System.out.println("4. Delete a lead\n\n");
+            System.out.println("4. Delete a lead\n");
             System.out.println("Managing Interactions");
             System.out.println("5. View all interactions");
             System.out.println("6. Create new interaction");
@@ -40,33 +41,17 @@ public class Console {
             switch (input) {
                 case "1":
                     // Print out all created leads
-                    try {
-                        File myObj = new File("leads.csv");
-                        Scanner myReader = new Scanner(myObj);
-                        while (myReader.hasNextLine()) {
-                            String data = myReader.nextLine();
-                            System.out.println(data);
-                        }
-                        myReader.close();
-                    } catch (FileNotFoundException e) {
-                        System.out.println("No lead was created");
-                        e.printStackTrace();
-                    }
+                    myLead.view("leads.csv");
                     break;
                 case "2":
                     // Creating new lead
-                    Lead newLead = new Lead();
-                    leads.add(newLead);
 
                     // Name Input and validation
                     System.out.println("Please enter lead's name: ");
                     String name = sc.nextLine();
-                    while (!name.matches("^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$")) {
+                    while (!name.matches("^[A-Z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$")) {
                         System.out.println("Please enter a valid name: ");
                         name = sc.nextLine();
-                    }
-                    if (name.matches("^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$")) {
-                        newLead.setName(name);
                     }
 
                     // DOB Input and exception handling
@@ -76,7 +61,6 @@ public class Console {
                     while (true) {
                         try {
                             Date dob = sdf.parse(date);
-                            newLead.setDob(dob);
                             break;
                         } catch (ParseException e) {
                             System.out.println(date + " is not a valid date");
@@ -87,33 +71,24 @@ public class Console {
 
                     // Gender input and validation
                     System.out.println("Please enter lead's gender (M/F): ");
-
                     String gender;
                     char inputGender = sc.nextLine().charAt(0);
-                    while (!(inputGender == 'm') || inputGender == 'f' || inputGender == 'F' || inputGender == 'M'){
+                    while (!((inputGender == 'm') || (inputGender == 'f') || (inputGender == 'F') || (inputGender == 'M'))) {
                         System.out.println("Please enter a valid gender (M/F): ");
                         inputGender = sc.nextLine().charAt(0);
                     }
                     if (inputGender == 'm' || inputGender == 'M') {
-                        newLead.setGender(true);
                         gender = "Male";
-                    } else if (inputGender == 'f' || inputGender == 'F') {
-                        newLead.setGender(true);
-                        gender = "Female";
                     } else {
-                        newLead.setGender(false);
-                        gender = "false";
-
+                        gender = "Female";
                     }
+
                     // Phone number input and validation
                     System.out.println("Please enter lead's phone number (10-digits): ");
                     String phone = sc.nextLine();
                     while (!phone.matches("^\\d{10}$")) {
                         System.out.println("Please enter a valid phone number (10-digits): ");
                         phone = sc.nextLine();
-                    }
-                    if (phone.matches("^\\d{10}$")) {
-                        newLead.setPhone(phone);
                     }
 
                     // Email Input and validation
@@ -123,9 +98,6 @@ public class Console {
                         System.out.println("Please enter a valid email: ");
                         email = sc.nextLine();
                     }
-                    if (email.matches("\\b[\\w.%-]+@[-.\\w]+\\.[A-Za-z]{2,4}\\b")) {
-                        newLead.setEmail(email);
-                    }
 
                     // Address Input and validation
                     System.out.println("Please enter lead's address: ");
@@ -134,62 +106,10 @@ public class Console {
                         System.out.println("Please enter a valid address: ");
                         address = sc.nextLine();
                     }
-                    if (address.matches("^[A-Z0-9 _]*[A-Z0-9][A-Za-z0-9 _]*$")) {
-                        newLead.setAddress(address);
-                    }
 
                     // File Create and store all input
-                    try {
-                        File myObj = new File("leads.csv");
-                        if (myObj.createNewFile()) {
-                            System.out.println("File created: " + myObj.getName());
-                            try {
-                                Scanner scanner = new Scanner(new File("leads.csv"));
-                                String id = "";
-                                int lines = 1;
-                                String str1 = Integer.toString(lines);
-                                id = "lead_00" + str1;
-                                FileWriter myWriter = new FileWriter("leads.csv");
-                                myWriter.write(id + "," + name + "," + date + "," + gender + "," + phone + "," + email + "," + address);
-                                myWriter.close();
-                                System.out.println("Successfully wrote to the file.");
-                            } catch (IOException e) {
-                                System.out.println("An error occurred.");
-                                e.printStackTrace();
-                            }
-                        } else {
-                            System.out.println("File already exists.");
-                            try {
-                                // Open given file in append mode.
-                                Scanner scanner = new Scanner(new File("leads.csv"));
-                                String id = "";
-                                int lines = 1;
-                                while (scanner.hasNext()) {
-                                    String s = scanner.nextLine();
-                                    lines++;
-                                }
-                                String str1 = Integer.toString(lines);
-                                if (lines < 10) {
-                                    id = "lead_00" + str1;
-                                } else if (lines < 100) {
-                                    id = "lead_0" + str1;
-                                } else {
-                                    id = "lead_" + str1;
-                                }
-                                BufferedWriter out = new BufferedWriter(new FileWriter("leads.csv", true));
-                                out.write("\n" + id + "," + name + "," + date + "," + gender + "," + phone + "," + email + "," + address);
-                                out.close();
-                                System.out.println("Successfully wrote to the file.");
-                            } catch (IOException e) {
-                                System.out.println("exception occured" + e);
-                            }
+                    myLead.createFileLead("leads.csv",name,date,gender,phone,email,address);
 
-                        }
-
-                    } catch (IOException e) {
-                        System.out.println("An error occurred.");
-                        e.printStackTrace();
-                    }
                     break;
                 case "3":
                     // Select ID to update
@@ -216,7 +136,7 @@ public class Console {
                                 updateName = sc.next();
                             }
 
-                            Lead.updateLead(updateLead, updateName);
+                            myLead.updateLead(updateLead, updateName,"","","","","");
 
                         }
 
@@ -236,7 +156,7 @@ public class Console {
                                 }
                             }
 
-                            Lead.updateLead(updateLead, updateDate);
+                            myLead.updateLead(updateLead,"", updateDate,"","","","");
 
                         }
 
@@ -244,21 +164,19 @@ public class Console {
                         case "gender" -> {
 
                             System.out.println("Please enter new lead's gender (M/F): ");
-                            String updateGender = "";
+                            String updateGender;
                             inputGender = sc.nextLine().charAt(0);
-                            while (!(inputGender == 'm') || inputGender == 'f' || inputGender == 'F' || inputGender == 'M'){
+                            while (!((inputGender == 'm') || (inputGender == 'f') || (inputGender == 'F') || (inputGender == 'M'))) {
                                 System.out.println("Please enter a valid gender (M/F): ");
                                 inputGender = sc.nextLine().charAt(0);
                             }
                             if (inputGender == 'm' || inputGender == 'M') {
                                 updateGender = "Male";
-                            } else if (inputGender == 'f' || inputGender == 'F') {
-                                updateGender = "Female";
                             } else {
-                                updateGender = "false";
+                                updateGender = "Female";
                             }
 
-                            Lead.updateLead(updateLead, updateGender);
+                            myLead.updateLead(updateLead,"","", updateGender,"","","");
 
                         }
 
@@ -271,7 +189,7 @@ public class Console {
                                 updatePhone = sc.nextLine();
                             }
 
-                            Lead.updateLead(updateLead, updatePhone);
+                            myLead.updateLead(updateLead,"","","",updatePhone,"","");
 
                         }
 
@@ -284,7 +202,7 @@ public class Console {
                                 updateEmail = sc.nextLine();
                             }
 
-                            Lead.updateLead(updateLead, updateEmail);
+                            myLead.updateLead(updateLead, "","","","",updateEmail,"");
 
                         }
 
@@ -297,7 +215,7 @@ public class Console {
                                 updateAddress = sc.nextLine();
                             }
 
-                            Lead.updateLead(updateLead, updateAddress);
+                            myLead.updateLead(updateLead,"","","","","",updateAddress);
 
                         }
 
@@ -317,31 +235,19 @@ public class Console {
                     System.out.println("Do you want to delete the related interaction (Yes/No):");
                     String confirmation = sc.nextLine();
                     if (confirmation.equals("Yes")) {
-                        Lead.removeLead("leads.csv", deleteLead, 1);
-                        Interaction.removeInt("interactions.csv", deleteLead,3);
+                        myLead.remove("leads.csv", deleteLead, 1);
+                        myInteraction.remove("interactions.csv", deleteLead, 3);
                     } else {
-                        Lead.removeLead("leads.csv", deleteLead, 1);
+                        myLead.remove("leads.csv", deleteLead, 1);
                     }
                     break;
                 case "5":
                     // Print out all created interactions
-                    try {
-                        File myObj2 = new File("interactions.csv");
-                        Scanner myReader = new Scanner(myObj2);
-                        while (myReader.hasNextLine()) {
-                            String data = myReader.nextLine();
-                            System.out.println(data);
-                        }
-                        myReader.close();
-                    } catch (FileNotFoundException e) {
-                        System.out.println("No interaction was created");
-                        e.printStackTrace();
-                    }
+
+                    myInteraction.view("leads.csv");
                     break;
                 case "6":
                     // Create new interaction
-                    Interaction newInteraction = new Interaction();
-                    interactions.add(newInteraction);
 
                     // Date of Interaction Input and Validation
                     System.out.println("Enter date of interaction (dd/MM/yyyy): ");
@@ -350,7 +256,6 @@ public class Console {
                     while (true) {
                         try {
                             Date interactionDate = sdf2.parse(date2);
-                            newInteraction.setDateOfInteraction(interactionDate);
                             break;
                         } catch (ParseException | DateTimeException e) {
                             System.out.println(date2 + " is not a valid date");
@@ -366,9 +271,6 @@ public class Console {
                         System.out.println("Please enter a valid mean of interaction (email/telephone/face to face/social media): ");
                         means = sc.nextLine();
                     }
-                    if (((means.matches("^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$")) && (means.toLowerCase().contains("email") || means.toLowerCase().contains("telephone") || means.toLowerCase().contains("face to face") || means.toLowerCase().contains("social media")))) {
-                        newInteraction.setInteractionMean(means);
-                    }
 
                     //Potential of each interaction Input and Validation
                     System.out.println("Enter the potential of each interaction (positive, neutral, negative):");
@@ -377,91 +279,24 @@ public class Console {
                         System.out.println("Please enter a valid mean: ");
                         potential = sc.nextLine();
                     }
-                    if ((potential.matches("^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$")) && (potential.toLowerCase().contains("positive") || potential.toLowerCase().contains("neutral") || potential.toLowerCase().contains("negative"))) {
-                        newInteraction.setInteractionPot(potential);
-                    }
 
                     //Create interaction file and store all input
-                    try {
-                        File myObj2 = new File("interactions.csv");
-                        if (myObj2.createNewFile()) {
-                            System.out.println("File created: " + myObj2.getName());
-                            try {
-                                Scanner scanner = new Scanner(new File("interactions.csv"));
-                                String id2 = "";
-                                int lines2 = 1;
-                                String str2 = Integer.toString(lines2);
-                                id2 = "inter_00" + str2;
-                                FileWriter myWriter = new FileWriter("interactions.csv");
-                                myWriter.write(id2 + "," + date2 + "," + "lead_001" + "," + means + "," + potential);
-                                myWriter.close();
-                                System.out.println("Successfully wrote to the file.");
-                            } catch (IOException e) {
-                                System.out.println("An error occurred.");
-                                e.printStackTrace();
-                            }
-                        } else {
-                            System.out.println("File already exists.");
-                            try {
-                                // Open given file in append mode.
-                                Scanner scanner = new Scanner(new File("interactions.csv"));
-                                String id2 = "";
-                                int lines2 = 1;
-                                while (scanner.hasNext()) {
-                                    String s = scanner.nextLine();
-                                    lines2++;
-                                }
-                                String str2 = Integer.toString(lines2);
-                                if (lines2 < 10) {
-                                    id2 = "inter_00" + str2;
-                                } else if (lines2 < 100) {
-                                    id2 = "inter_0" + str2;
-                                } else {
-                                    id2 = "inter_" + str2;
-                                }
-                                scanner = new Scanner(new File("leads.csv"));
-                                String id = "";
-                                int lines = 0;
-                                while (scanner.hasNext()) {
-                                    String s = scanner.nextLine();
-                                    lines++;
-                                }
-                                String str1 = Integer.toString(lines);
-                                if (lines < 10) {
-                                    id = "lead_00" + str1;
-                                } else if (lines < 100) {
-                                    id = "lead_0" + str1;
-                                } else {
-                                    id = "lead_" + str1;
-                                }
-                                BufferedWriter out = new BufferedWriter(new FileWriter("interactions.csv", true));
-                                out.write(id2 + "," + date2 + "," + id + "," + means + "," + potential + "," + "\n");
-                                out.close();
-                                System.out.println("Successfully wrote to the file.");
-                            } catch (IOException e) {
-                                System.out.println("exception occured" + e);
-                            }
+                    myInteraction.createIntFile("interaction.java",date2,means,potential);
 
-                        }
-
-                    } catch (IOException e) {
-                        System.out.println("An error occurred.");
-                        e.printStackTrace();
-                    }
                     break;
                 case "7":
                     // Select interaction's ID to update
                     System.out.println("Enter interaction ID you want to update (inter_xxx): ");
                     String updateInt = sc.nextLine();
 
-                    while (!updateInt.contains("lead_")) {
-                        System.out.println("Please enter valid lead ID (lead_xxx): ");
+                    while (!updateInt.contains("inter_")) {
+                        System.out.println("Please enter valid interaction ID (lead_xxx): ");
                         updateInt = sc.nextLine();
                     }
 
                     //Select info of interactions to update
                     String infoOfInt;
-                    System.out.println("Please enter info of lead you want to update (date/means/potential): ");
+                    System.out.println("Please enter info of interaction you want to update (date/means/potential): ");
                     infoOfInt = sc.nextLine();
 
                     switch (infoOfInt) {
@@ -482,7 +317,7 @@ public class Console {
                                 }
                             }
 
-                            Interaction.updateInt(updateInt, updateIntDate);
+                            myInteraction.updateInt(updateInt, updateIntDate,"","");
 
                         }
 
@@ -495,8 +330,7 @@ public class Console {
                                 updateMeans = sc.nextLine();
                             }
 
-
-                            Interaction.updateInt(updateInt, updateMeans);
+                            myInteraction.updateInt(updateInt,"",updateMeans,"");
 
                         }
 
@@ -510,7 +344,7 @@ public class Console {
                                 updatePotential = sc.nextLine();
                             }
 
-                            Interaction.updateInt(updateInt, updatePotential);
+                            myInteraction.updateInt(updateInt,"","", updatePotential);
 
                         }
 
@@ -528,9 +362,8 @@ public class Console {
                         System.out.println("Please enter valid inter ID (inter_xxx): ");
                         deleteInteraction = sc.nextLine();
                     }
-                    Interaction.removeInt("interactions.csv", deleteInteraction, 1);
+                    myInteraction.remove("interactions.csv", deleteInteraction, 1);
                     break;
-
                 case "9":
                     System.out.println("1. Leads Age Report");
                     System.out.println("2. Interaction Potential Report");
@@ -539,121 +372,39 @@ public class Console {
                     switch (reportOption) {
                         case 1:
                             // Leads Age Report
-                            int countZeroToTen = 0;
-                            int countTenToTwenty = 0;
-                            int countTwentyToSixty = 0;
-                            int countGreaterThanSixty = 0;
-                           String searchDate;
-                           try {
-                               Scanner scanner = new Scanner(new File("leads.csv"));
-                               scanner.useDelimiter("[,\n]");
-                               SimpleDateFormat sdf5 = new SimpleDateFormat("dd/MM/yyyy");
-                               while (scanner.hasNext()){
-                                   searchDate = scanner.next();
-                                   String regex = "^([0-2][0-9]||3[0-1])/(0[0-9]||1[0-2])/([0-9][0-9])?[0-9][0-9]$";
-                                   // Convert searchDate into Date
-                                   if (searchDate.matches(regex)){
-                                       Date inputDate = sdf5.parse(searchDate);
+                            myReport.countLeadByAge("leads.csv");
 
-                                       // Convert into age
-                                       Date now = new Date();
-                                       int days = (int)(((now.getTime() - inputDate.getTime()) / (1000 * 60 * 60 * 24)));
-                                       int age = days / 365;
-                                       if (age > 0 && age <= 10){
-                                           countZeroToTen++;
-                                       }else if (age <= 20){
-                                           countTenToTwenty++;
-                                       }else if (age <= 60){
-                                           countTwentyToSixty++;
-                                       }else{
-                                           countGreaterThanSixty++;
-                                       }
-                                   }
-                               }
-                           }catch (Exception e){
-                               e.printStackTrace();
-                           }
-
-                            System.out.println("Input: No input required");
-                            System.out.println("0 - 10 (years old): " + countZeroToTen);
-                            System.out.println("10 - 20 (years old): " + countTenToTwenty);
-                            System.out.println("20 - 60 (years old): " + countTwentyToSixty);
-                            System.out.println("> 60 (years old): " + countGreaterThanSixty + "\n");
                             break;
                         case 2:
-                            // Asking for start - end day
+                            // Asking for start day
                             SimpleDateFormat sdf3 = new SimpleDateFormat("dd/MM/yyyy");
                             System.out.println("Enter start day: ");
                             sc = new Scanner(System.in);
                             String startDate = sc.nextLine();
-                            while (true) {
-                                try {
-                                    // Parse String into Date Object
-                                    Date startDate1 = sdf3.parse(startDate);
-                                    // Print Format
-                                    DateFormat dFormat = new SimpleDateFormat("MMMM dd, yyyy");
-                                    // Format date into Print Format
-                                    startDate = dFormat.format(startDate1);
-                                break;
-                                } catch (ParseException e) {
-                                    System.out.println("Please enter a valid start date (dd/MM/YYYY): ");
-                                    startDate = sc.nextLine();
-                                }
-                            }
+
+                            // Asking for end day
                             System.out.println("Enter end day: ");
                             String endDate = sc.nextLine();
-                            while (true) {
-                                try {
-                                    Date endDate1 = sdf3.parse(endDate);
-                                    // Print Format
-                                    DateFormat dFormat = new SimpleDateFormat("MMMM dd,yyyy");
-                                    // Format date into Print Format
-                                    endDate = dFormat.format(endDate1);
-                                    break;
-                                } catch (ParseException e) {
-                                    System.out.println("Please enter a valid end date (dd/MM/YYYY): ");
-                                    endDate = sc.nextLine();
-                                }
-                            }
+
                             // Number of Interactions by potential Report
-                            int countPositive = 0;
-                            int countNegative = 0;
-                            int countNeutral = 0;
-                            String searchTerm;
-                            try {
-                                Scanner x = new Scanner(new File("interactions.csv"));
-                                x.useDelimiter("[,\n]");
-                                while (x.hasNext()) {
-                                    searchTerm = x.next();
-                                    if (searchTerm.toLowerCase().equals("positive")) {
-                                        countPositive++;
-                                    } else if (searchTerm.toLowerCase().equals("neutral")) {
-                                        countNeutral++;
-                                    } else if (searchTerm.toLowerCase().equals("negative")) {
-                                        countNegative++;
-                                    }
-                                }
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                            System.out.println("Input: " + startDate + " - " + endDate);
-                            System.out.println("Positive: " + countPositive);
-                            System.out.println("Negative: " + countNegative);
-                            System.out.println("Neutral: " + countNeutral + "\n");
+                            myReport.countIntPotential("interactions.csv",startDate,endDate);
+
                             break;
+
                         case 3:
                             // Asking for start - end day
                             SimpleDateFormat sdf4 = new SimpleDateFormat("dd/MM/yyyy");
                             System.out.println("Enter start day: ");
                             sc = new Scanner(System.in);
                             String startDate2 = sc.nextLine();
+                            Date startDate3 = new Date();
                             while (true) {
                                 try {
-                                    Date startDate1 = sdf4.parse(startDate2);
+                                    startDate3 = sdf4.parse(startDate2);
                                     // Print Format
                                     DateFormat dFormat = new SimpleDateFormat("MMMM dd, yyyy");
                                     // Format date into Print Format
-                                   startDate2 = dFormat.format(startDate1);
+                                    startDate2 = dFormat.format(startDate3);
                                     break;
                                 } catch (ParseException e) {
                                     System.out.println("Please enter a valid start date (dd/MM/YYYY): ");
@@ -662,91 +413,50 @@ public class Console {
                             }
                             System.out.println("Enter end day: ");
                             String endDate2 = sc.nextLine();
+                            Date endDate3 = new Date();
                             while (true) {
                                 try {
-                                    Date endDate1 = sdf4.parse(endDate2);
+                                    endDate3 = sdf4.parse(endDate2);
                                     // Print Format
                                     DateFormat dFormat = new SimpleDateFormat("MMMM dd,yyyy");
                                     // Format date into Print Format
-                                    endDate2 = dFormat.format(endDate1);
+                                    endDate2 = dFormat.format(endDate3);
                                     break;
                                 } catch (ParseException e) {
                                     System.out.println("Please enter a valid end date (dd/MM/YYYY): ");
                                     endDate2 = sc.nextLine();
                                 }
                             }
+
+
                             // Number of Interactions by month report
                             Calendar cal = Calendar.getInstance();
                             int countJan = 0;
-                            int countFeb = 0;
-                            int countMar = 0;
-                            int countApr = 0;
-                            int countMay = 0;
-                            int countJun = 0;
-                            int countJul = 0;
-                            int countAug = 0;
-                            int countSep = 0;
-                            int countOct = 0;
-                            int countNov = 0;
-                            int countDec = 0;
                             String dateInput;
                             Scanner scanner = new Scanner(new File("interactions.csv"));
-                            scanner.useDelimiter("[,\n]");
-                            SimpleDateFormat sdf6 = new SimpleDateFormat("dd/MM/yyyy");
-                            while (scanner.hasNext()){
-                                dateInput = scanner.next();
-                                String regex = "^([0-2][0-9]||3[0-1])/(0[0-9]||1[0-2])/([0-9][0-9])?[0-9][0-9]$";
-                                if (dateInput.matches(regex)){
-                                    Date inputDate = sdf6.parse(dateInput);
-                                    cal.setTime(inputDate);
-                                    int month = cal.get(Calendar.MONTH);
-                                    if (month == 0) {
-                                        countJan++;
-                                    } else if (month == 1) {
-                                        countFeb++;
-                                    } else if (month == 2) {
-                                        countMar++;
-                                    } else if (month == 3) {
-                                        countApr++;
-                                    } else if (month == 4) {
-                                        countMay++;
-                                    } else if (month == 5) {
-                                        countJun++;
-                                    } else if (month == 6) {
-                                        countJul++;
-                                    } else if (month == 7) {
-                                        countAug++;
-                                    } else if (month == 8) {
-                                        countSep++;
-                                    } else if (month == 9) {
-                                        countOct++;
-                                    } else if (month == 10) {
-                                        countNov++;
-                                    } else if (month == 11) {
-                                        countDec++;
-                                    }
+                            while (scanner.hasNext()) {
+                                dateInput = scanner.nextLine();
+                                String[] arr = dateInput.split(",");
+                                sdf4 = new SimpleDateFormat("dd/MM/yyyy");
+                                Date IntDate2 = sdf4.parse(arr[1]);
+                                if (startDate3.getTime() < IntDate2.getTime() && IntDate2.getTime() < endDate3.getTime()) {
+
+                                    countJan++;
+
+                                }
+                                String[] arr2 = new String[countJan];
+                                System.out.println(arr2);
+                                scanner = new Scanner(new File("interactions.csv"));
+                                if (startDate3.getTime() < IntDate2.getTime() && IntDate2.getTime() < endDate3.getTime()) {
+
                                 }
                             }
-
-                            System.out.println("Input: " + startDate2 + " - " + endDate2);
-                            System.out.println("Jan 2020: " + countJan);
-                            System.out.println("Feb 2020: " + countFeb);
-                            System.out.println("Mar 2020: " + countMar);
-                            System.out.println("Apr 2020: " + countApr);
-                            System.out.println("May 2020: " + countMay);
-                            System.out.println("Jun 2020: " + countJun);
-                            System.out.println("Jul 2020: " + countJul);
-                            System.out.println("Aug 2020: " + countAug);
-                            System.out.println("Sep 2020: " + countSep);
-                            System.out.println("Oct 2020: " + countOct);
-                            System.out.println("Nov 2020: " + countNov);
-                            System.out.println("Dec 2020: " + countDec);
+                            break;
+                            }
                             break;
                     }
-                    break;
-            }
-        } while (input.equals("1") || input.equals("2") || input.equals("3") || input.equals("4") || input.equals("5")
-                || input.equals("6") || input.equals("7") || input.equals("8") );
+
+        } while (true);
     }
 
 }
