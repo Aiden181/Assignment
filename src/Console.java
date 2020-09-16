@@ -279,7 +279,7 @@ public class Console {
                     }
 
                     //Create interaction file and store all input
-                    myInteraction.createIntFile("interaction.java",date2,means,potential);
+                    myInteraction.createIntFile("interactions.csv",date2,means,potential);
 
                     break;
                 case "7":
