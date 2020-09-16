@@ -242,7 +242,7 @@ public class Console {
                 case "5":
                     // Print out all created interactions
 
-                    myInteraction.view("leads.csv");
+                    myInteraction.view("interactions.csv");
                     break;
                 case "6":
                     // Create new interaction
