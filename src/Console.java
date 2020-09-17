@@ -1,4 +1,3 @@
-import java.text.DateFormat;
 import java.util.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,12 +25,14 @@ public class Console {
             System.out.println("6. Create new interaction");
             System.out.println("7. Update an interaction");
             System.out.println("8. Delete an interaction\n");
-            System.out.println("9. Reporting and Statistic");
+            System.out.println("9. Reporting and Statistic\n");
+            System.out.println("10. System exit");
 
+            String input1="0";
             input = (sc.nextLine());
             // User Input Validation
             while (!(input.equals("1") || input.equals("2") || input.equals("3") || input.equals("4") || input.equals("5")
-                    || input.equals("6") || input.equals("7") || input.equals("8") || input.equals("9"))) {
+                    || input.equals("6") || input.equals("7") || input.equals("8") || input.equals("9") || input.equals("10"))) {
                 System.out.println("Please enter a valid option: ");
                 input = sc.nextLine();
             }
@@ -274,7 +275,7 @@ public class Console {
                     System.out.println("Enter the potential of each interaction (positive, neutral, negative):");
                     String potential = sc.nextLine();
                     while (!((potential.matches("^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$")) && (potential.toLowerCase().contains("positive") || potential.toLowerCase().contains("neutral") || potential.toLowerCase().contains("negative")))) {
-                        System.out.println("Please enter a valid mean: ");
+                        System.out.println("Please enter a valid potential: ");
                         potential = sc.nextLine();
                     }
 
@@ -338,7 +339,7 @@ public class Console {
                             System.out.println("Please enter new interaction's potential (positive, neutral, negative): ");
                             String updatePotential = sc.nextLine();
                             while (!((updatePotential.matches("^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$")) && (updatePotential.toLowerCase().contains("positive") || updatePotential.toLowerCase().contains("neutral") || updatePotential.toLowerCase().contains("negative")))) {
-                                System.out.println("Please enter a valid mean: ");
+                                System.out.println("Please enter a valid potential: ");
                                 updatePotential = sc.nextLine();
                             }
 
@@ -405,7 +406,15 @@ public class Console {
                             }
 
                             break;
+                case "10":
+                    input1 = "1";
+                    break;
                     }
+
+            if (input1.equals("1")) {
+                break;
+            }
+
             } while (true);
     }
 

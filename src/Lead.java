@@ -1,5 +1,9 @@
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Scanner;
+import java.io.File;
 
 public class Lead implements ViewFile,Delete {
 
@@ -128,9 +132,11 @@ public class Lead implements ViewFile,Delete {
             pw.flush();
             pw.close();
 
-            oldFile.delete();
-            File dump = new File(filepath);
-            newFile.renameTo(dump);
+            Path path1 = Paths.get(String.valueOf(oldFile));
+            Path path2 = Paths.get(String.valueOf(newFile));
+
+            Files.delete(path1);
+            Files.move(path2, path1);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -169,9 +175,12 @@ public class Lead implements ViewFile,Delete {
             bw.close();
             fw.close();
 
-            oldFile.delete();
-            File dump = new File(filepath);
-            newFile.renameTo(dump);
+            Path path1 = Paths.get(String.valueOf(oldFile));
+            Path path2 = Paths.get(String.valueOf(newFile));
+
+            Files.delete(path1);
+            Files.move(path2, path1);
+
         } catch (Exception e) {
             System.out.println("error");
         }
