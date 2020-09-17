@@ -1,10 +1,9 @@
 import java.io.*;
-import java.util.Date;
 import java.util.Scanner;
-
 
 public class Lead implements ViewFile,Delete {
 
+    // View all created leads method
     public void view(String filepath) {
         try {
             File myObj = new File(filepath);
@@ -20,6 +19,7 @@ public class Lead implements ViewFile,Delete {
         }
     }
 
+    //  Create new lead method
     public void createFileLead(String filepath,String name,String date,String gender,String phone,String email,String address) {
         try {
             File myObj = new File(filepath);
@@ -73,6 +73,7 @@ public class Lead implements ViewFile,Delete {
         }
     }
 
+    // Update a lead method
     public void updateLead(String editTerm,String newName,String newDate,String newGender,String newPhone,String newEmail,String newAddress) {
         String tempFile = "temp.csv";
         String filepath = "leads.csv";
@@ -104,7 +105,6 @@ public class Lead implements ViewFile,Delete {
                 phone = lead_arr[4];
                 email = lead_arr[5];
                 address = lead_arr[6];
-                System.out.println(name);
                 if (id.equals(editTerm)) {
                     if (!newName.equals("")) {
                         pw.println(id + "," + newName + "," + date + "," + gender + "," + phone + "," + email + "," + address);
@@ -130,13 +130,14 @@ public class Lead implements ViewFile,Delete {
 
             oldFile.delete();
             File dump = new File(filepath);
-            newFile.renameTo(oldFile);
+            newFile.renameTo(dump);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    // Remove a lead method
     public void remove(String filepath, String removeTerm, int positionOfTerm) {
         int position = positionOfTerm - 1;
         String tempFile = "temp.csv";

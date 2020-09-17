@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Report {
+
+    // Count lead by age method
     public void countLeadByAge(String filepath){
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         int countZeroToTen = 0;
@@ -51,6 +53,7 @@ public class Report {
         System.out.println("> 60 (years old): " + countGreaterThanSixty + "\n");
     }
 
+    // Count interaction potential method
     public void countIntPotential(String filepath,String startDate,String endDate){
         Scanner sc = new Scanner(System.in);
         SimpleDateFormat sdf3 = new SimpleDateFormat("dd/MM/yyyy");
@@ -93,6 +96,7 @@ public class Report {
                 searchTerm = x.nextLine();
                 String[] arr = searchTerm.split(",");
                 Date IntDate = sdf3.parse(arr[1]);
+                // Check date is between start date input and end date input
                 if (startDate1.getTime() < IntDate.getTime() && IntDate.getTime() < endDate1.getTime()) {
                     if (searchTerm.toLowerCase().contains("positive")) {
                         countPositive++;
@@ -112,6 +116,7 @@ public class Report {
         System.out.println("Neutral: " + countNeutral + "\n");
     }
 
+    // Count interactions by month method
     public void countIntMonth(String filepath,String startDate2,String endDate2) throws ParseException, FileNotFoundException {
         Scanner sc = new Scanner(System.in);
         SimpleDateFormat sdf4 = new SimpleDateFormat("dd/MM/yyyy");
@@ -144,14 +149,17 @@ public class Report {
                 endDate2 = sc.nextLine();
             }
         }
+
         int countJan = 0;
         String dateInput;
         Scanner scanner = new Scanner(new File(filepath));
+        // Split string to get date value
         while (scanner.hasNext()) {
             dateInput = scanner.nextLine();
             String[] arr = dateInput.split(",");
             sdf4 = new SimpleDateFormat("dd/MM/yyyy");
             Date IntDate2 = sdf4.parse(arr[1]);
+            // Check date is between start date input and end date input
             if (startDate3.getTime() < IntDate2.getTime() && IntDate2.getTime() < endDate3.getTime()) {
                 countJan++;
             }
@@ -165,12 +173,14 @@ public class Report {
             String[] arr = dateInput.split(",");
             sdf4 = new SimpleDateFormat("dd/MM/yyyy");
             Date IntDate2 = sdf4.parse(arr[1]);
+            // get date have only month and year
             String onlyMonth = arr[1].split("/")[1];
             String onlyYear = arr[1].split("/")[2];
             if (startDate3.getTime() < IntDate2.getTime() && IntDate2.getTime() < endDate3.getTime()) {
                 arr2[i++] = onlyMonth + "/" + onlyYear;
             }
         }
+        // count repeated value to show once only
         String[] loopMonth = new String[i+1];
         i = 0;
         for (String dateByMonth:arr2){
@@ -183,6 +193,7 @@ public class Report {
             List<String> list = Arrays.asList(loopMonth);
             if(!list.contains(dateByMonth)){
                 loopMonth[i++] = dateByMonth;
+                // change date format
                 SimpleDateFormat sdf5 = new SimpleDateFormat("MM/yyyy");
                 Date dateB = new Date();
                 dateB = sdf5.parse(dateByMonth);

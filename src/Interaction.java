@@ -1,5 +1,4 @@
 import java.io.*;
-import java.util.Date;
 import java.util.Scanner;
 
 public class Interaction implements ViewFile,Delete {
@@ -141,11 +140,11 @@ public class Interaction implements ViewFile,Delete {
             FileWriter fw = new FileWriter(newFile);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter pw = new PrintWriter(bw);
-            Scanner scanner = new Scanner(new File(filepath));
+            Scanner sc = new Scanner(new File(filepath));
 
 
-            while (scanner.hasNext()) {
-                String intUpdate = scanner.nextLine();
+            while (sc.hasNext()) {
+                String intUpdate = sc.nextLine();
                 String[] int_arr = intUpdate.split(",");
                 id = int_arr[0];
                 date = int_arr[1];
@@ -165,8 +164,7 @@ public class Interaction implements ViewFile,Delete {
                     pw.println(id + "," + date + "," + leadId + "," + means + "," + potential);
                 }
             }
-
-                scanner.close();
+                sc.close();
                 pw.flush();
                 pw.close();
 

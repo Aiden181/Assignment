@@ -1,4 +1,3 @@
-import java.io.*;
 import java.text.DateFormat;
 import java.util.*;
 import java.text.ParseException;
@@ -26,8 +25,8 @@ public class Console {
             System.out.println("5. View all interactions");
             System.out.println("6. Create new interaction");
             System.out.println("7. Update an interaction");
-            System.out.println("8. Delete a interaction\n");
-            System.out.println("9. Report and Statistic");
+            System.out.println("8. Delete an interaction\n");
+            System.out.println("9. Reporting and Statistic");
 
             input = (sc.nextLine());
             // User Input Validation
@@ -230,6 +229,7 @@ public class Console {
                         System.out.println("Please enter valid lead ID (lead_xxx): ");
                         deleteLead = sc.nextLine();
                     }
+                    // Confirmation to delete related interaction
                     System.out.println("Do you want to delete the related interaction (Yes/No):");
                     String confirmation = sc.nextLine();
                     if (confirmation.equals("Yes")) {
@@ -376,8 +376,8 @@ public class Console {
                         case 2:
                             // Asking for start day
                             SimpleDateFormat sdf3 = new SimpleDateFormat("dd/MM/yyyy");
-                            System.out.println("Enter start day: ");
                             sc = new Scanner(System.in);
+                            System.out.println("Enter start day: ");
                             String startDate = sc.nextLine();
 
                             // Asking for end day
